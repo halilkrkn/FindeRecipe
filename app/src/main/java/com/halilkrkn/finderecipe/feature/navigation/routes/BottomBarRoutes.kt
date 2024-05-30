@@ -11,10 +11,10 @@ sealed class BottomBarRoutes(
     val icon: ImageVector,
     val title: String
 ) {
-    data object Home : BottomBarRoutes(
-        route = "home",
+    data object Recipes : BottomBarRoutes(
+        route = "recipes",
         icon = Icons.Default.Cookie,
-        title = "Watchlist"
+        title = "Recipes"
     )
     data object Search : BottomBarRoutes(
         route = "search",

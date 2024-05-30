@@ -1,6 +1,5 @@
-package com.halilkrkn.finderecipe.feature.presentation.main.home
+package com.halilkrkn.finderecipe.feature.presentation.main.recipe
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
-import com.halilkrkn.finderecipe.feature.navigation.util.Graphs
 
 @Composable
-fun HomeRecipesScreen(
+fun RecipesScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
 ) {
@@ -28,7 +26,7 @@ fun HomeRecipesScreen(
             navController.navigate(route = DetailsRoutes.Detail.route.plus("/1"))
         }) {
             Text(
-                text = "Home Recipes",
+                text = "Recipes Screen",
             )
         }
     }

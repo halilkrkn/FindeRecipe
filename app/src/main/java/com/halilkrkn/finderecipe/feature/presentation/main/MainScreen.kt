@@ -3,7 +3,6 @@ package com.halilkrkn.finderecipe.feature.presentation.main
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -39,7 +38,7 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
-        BottomBarRoutes.Home,
+        BottomBarRoutes.Recipes,
         BottomBarRoutes.Search,
         BottomBarRoutes.Favorites,
     )

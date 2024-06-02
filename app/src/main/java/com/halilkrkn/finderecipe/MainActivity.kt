@@ -22,7 +22,9 @@ import com.halilkrkn.finderecipe.feature.navigation.graphs.SetupNavGraph
 import com.halilkrkn.finderecipe.ui.theme.FindeRecipeTheme
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite2
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
 

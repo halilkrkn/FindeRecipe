@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     kotlin("kapt")
     id("com.android.application")
@@ -24,6 +26,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        Properties().apply {
+            load(project.rootProject.file("local.properties").inputStream())
+            val apiKey = getProperty("API_KEY")
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        }
     }
 
     buildTypes {
@@ -44,6 +52,8 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"

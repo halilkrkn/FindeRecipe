@@ -15,7 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.halilkrkn.finderecipe.core.util.MealTypes
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.halilkrkn.finderecipe.domain.model.MealTypeRecipe
+import com.halilkrkn.finderecipe.domain.model.Recipe
+import com.halilkrkn.finderecipe.feature.presentation.main.recipe.RecipeViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,36 +26,39 @@ import com.halilkrkn.finderecipe.core.util.MealTypes
 @Composable
 fun RecipeMealTypeItemScreen(
     isRefreshing: Boolean,
-//    theMovies: List<TheTrendingMovies>,
-    mealTypes: List<MealTypes>,
-
-    ) {
-
+    mealTypes: List<MealTypeRecipe>,
+//    navController: NavController,
+) {
     val pullRefreshState = rememberPullToRefreshState()
-
 
     Box(
         modifier = Modifier
-            .padding(bottom = 10.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(bottom = 10.dp),
         contentAlignment = Alignment.Center
     ) {
         LazyVerticalGrid(
             modifier = Modifier
                 .padding(start = 8.dp, end = 8.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             columns = GridCells.Fixed(2),
         ) {
-            items(mealTypes) { mealType ->
-                RecipeMealTypeItem(
-                    theMeal = mealType,
-                    modifier = Modifier.fillMaxWidth(),
-                    onItemClick = {}
-                )
+
+                items(mealTypes) { mealType ->
+                    RecipeMealTypeItem(
+                        theMeal = mealType,
+                        modifier = Modifier.fillMaxWidth(),
+                        onItemClick = {
+//                        navController.navigate(
+//                            DetailsRoutes.Detail.route + "/${mealType.id}"
+//                        )
+                        }
+                    )
+                }
             }
-        }
+
 
 //        PullToRefreshContainer(
 //            state = pullRefreshState,

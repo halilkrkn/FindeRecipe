@@ -5,6 +5,7 @@ import com.halilkrkn.finderecipe.data.repository.FindeRecipeRepositoryImpl
 import com.halilkrkn.finderecipe.domain.repository.FindeRecipeRepository
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
 import com.halilkrkn.finderecipe.domain.usecase.GetAllRecipesUseCase
+import com.halilkrkn.finderecipe.domain.usecase.GetMealTypeRecipesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +27,8 @@ object AppModule {
     @Provides
     fun provideFindeRecipeUseCases(repository: FindeRecipeRepository): FindeRecipeUseCases {
         return FindeRecipeUseCases(
-            getAllRecipesUseCase = GetAllRecipesUseCase(repository)
+            getAllRecipesUseCase = GetAllRecipesUseCase(repository),
+            getMealTypeRecipesUseCase = GetMealTypeRecipesUseCase(repository)
         )
     }
 }

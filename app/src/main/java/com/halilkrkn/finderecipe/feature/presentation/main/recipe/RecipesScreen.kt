@@ -2,6 +2,7 @@ package com.halilkrkn.finderecipe.feature.presentation.main.recipe
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,11 +21,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -45,45 +45,57 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.core.util.MealTypes
+import com.halilkrkn.finderecipe.domain.model.MealTypeRecipe
+import com.halilkrkn.finderecipe.domain.model.Recipe
+import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.RecipeMealTypeItemScreen
 import com.halilkrkn.finderecipe.ui.theme.Copper
-import com.halilkrkn.finderecipe.ui.theme.Coral
+import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import com.halilkrkn.finderecipe.ui.theme.OxfordBlue
-import com.halilkrkn.finderecipe.ui.theme.PastelPink
 import kotlinx.coroutines.launch
 
 @Composable
 fun RecipesScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
+    viewModel: RecipeViewModel = hiltViewModel(),
 ) {
     val scope = rememberCoroutineScope()
+    val state = viewModel.state.value
+    val isLoading = state.isLoading
+    val recipeList = state.recipeList
+
+    val mealTypeRecipeList = viewModel.stateMealType.value.mealTypesList
+
     val mealTypes = listOf(
-        MealTypes.MainCourse,
-        MealTypes.SideDish,
+        MealTypes.Breakfast,
+        MealTypes.Drink,
         MealTypes.Dessert,
-        MealTypes.Appetizer,
+        MealTypes.Soup,
         MealTypes.Salad,
         MealTypes.Bread,
-        MealTypes.Breakfast,
-        MealTypes.Soup,
+        MealTypes.MainCourse,
+        MealTypes.Appetizer,
         MealTypes.Beverage,
         MealTypes.Sauce,
         MealTypes.Marinade,
         MealTypes.FingerFood,
         MealTypes.Snack,
-        MealTypes.Drink
+        MealTypes.SideDish
     )
     Scaffold(
         containerColor = FloralWhite,
@@ -99,38 +111,40 @@ fun RecipesScreen(
         ) {
             InfoSection()
             Spacer(modifier = Modifier.height(12.dp))
-            RecentRecipesSection()
-            RecentRecipesItemSection()
+            RecentRecipesInfoSection()
+            if (recipeList != null) {
+                RecentRecipesItemSection(
+                    recipeList = recipeList,
+                    isLoading = isLoading
+                )
+            }
             Spacer(modifier = Modifier.height(12.dp))
             InputChipSection(
-                onClick = {
+                onClick = { mealType ->
                     scope.launch {
-                        Log.d("TAG", "InputChipSection: $it clicked")
-//                        trendingMoviesViewModel.getDailyMovies()
+                        Log.d("TAG", "InputChipSection: $mealType clicked")
+                        viewModel.getMealTypeRecipes(mealType)
                     }
                 },
-                onClickWeekly = {
-//                    trendingMoviesViewModel.getWeeklyMovies()
-                },
-                mealTypes = mealTypes
+                mealTypes = mealTypes,
             )
             Spacer(modifier = Modifier.height(12.dp))
             RecipeMealTypeSection(
-                mealTypes = mealTypes
+                mealTypes = mealTypeRecipeList ?: emptyList()
             )
         }
     }
 }
 
 @Composable
-fun RecentRecipesSection(modifier: Modifier = Modifier) {
+fun RecentRecipesInfoSection(modifier: Modifier = Modifier) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Most Popular",
+            text = "Recent Popular",
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
@@ -140,17 +154,18 @@ fun RecentRecipesSection(modifier: Modifier = Modifier) {
             Text(
                 text = "See All",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Light,
-                color = Coral
+                fontWeight = FontWeight.Medium,
+                color = DarkMidnightBlue
             )
         }
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
+
 @Composable
 fun RecipeMealTypeSection(
     modifier: Modifier = Modifier,
-    mealTypes: List<MealTypes>,
+    mealTypes: List<MealTypeRecipe>,
 ) {
     Column(
         modifier = Modifier
@@ -165,64 +180,91 @@ fun RecipeMealTypeSection(
 }
 
 @Composable
-fun RecentRecipesItemSection(modifier: Modifier = Modifier) {
-    LazyRow {
-        items(8) {
-            Card(
+fun RecentRecipesItemSection(
+    modifier: Modifier = Modifier,
+    recipeList: List<Recipe>,
+    isLoading: Boolean,
+) {
+    if (isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .size(120.dp, 120.dp)
+                .padding(24.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            LoadingProgressBar(
+                raw = R.raw.loading
+            )
+        }
+    }
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        items(recipeList) { recipe ->
+            Column(
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 8.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = PastelPink
-                ),
+                    .clickable {
+                        Log.d("TAG", "RecentRecipesItemSection: ${recipe.title} clicked")
+                    }
+                    .fillMaxWidth()
+                    .size(300.dp, 300.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Column(
+                SubcomposeAsyncImage(
+                    model = recipe.image,
+                    loading = {
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Black.copy(alpha = 0.1f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LoadingProgressBar(
+                                modifier = Modifier.size(100.dp, 100.dp),
+                                raw = R.raw.loading
+                            )
+                        }
+                    },
+                    error = {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon( // Use an icon to indicate error
+                                imageVector = Icons.Default.Error,
+                                contentDescription = "Failed to load image"
+                            )
+                        }
+                    },
+                    contentDescription = recipe.title,
                     modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    SubcomposeAsyncImage(
-                        model = " https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-                        loading = {
-                            Box(
-                                modifier = Modifier
-                                    .background(Color.Black.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-//                        LoadingProgressBar(
-//                            modifier = Modifier
-//                                .size(100.dp, 100.dp),
-//                            raw = R.raw.image_loading
-//                        )
-                            }
-                        },
-                        error = {
-//                    LoadingProgressBar(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .size(100.dp, 100.dp),
-//                        raw = R.raw.image_error
-//                    )
-                        },
-                        contentDescription = "theMeal.type",
-                        modifier = Modifier
-                            .size(200.dp, 150.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Title",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
-                    )
-                }
+                        .size(312.dp, 231.dp)
+                        .clip(RoundedCornerShape(36.dp))
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = recipe.title,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .height(75.dp)
 
+                )
             }
         }
+
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
+
 
 @Composable
 fun InfoSection(modifier: Modifier = Modifier) {
@@ -259,10 +301,9 @@ fun InfoSection(modifier: Modifier = Modifier) {
 @Composable
 fun InputChipSection(
     onClick: (String) -> Unit,
-    onClickWeekly: () -> Unit,
     mealTypes: List<MealTypes>,
 ) {
-    val clickColor = remember { mutableStateOf(false)}
+    val clickColor = remember { mutableStateOf(false) }
     LazyRow(
         modifier = Modifier
             .padding(horizontal = 8.dp)
@@ -302,7 +343,6 @@ fun InputChipSection(
     }
 }
 
-
 @Composable
 fun TopBar(modifier: Modifier = Modifier) {
     Row(
@@ -336,17 +376,17 @@ fun TopBar(modifier: Modifier = Modifier) {
         BadgedBox(
             modifier = Modifier.padding(end = 8.dp),
             badge = {
-            Badge {
-                Text(
-                    text = "3",
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
+                Badge {
+                    Text(
+                        text = "3",
+                        style = TextStyle(
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
-                )
-            }
-        }) {
+                }
+            }) {
             Icon(
                 modifier = Modifier.size(32.dp),
                 imageVector = Icons.Default.NotificationsNone,

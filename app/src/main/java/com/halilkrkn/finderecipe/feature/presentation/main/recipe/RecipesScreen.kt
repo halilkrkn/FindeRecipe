@@ -61,6 +61,7 @@ import com.halilkrkn.finderecipe.core.util.MealTypes
 import com.halilkrkn.finderecipe.domain.model.MealTypeRecipe
 import com.halilkrkn.finderecipe.domain.model.Recipe
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
+import com.halilkrkn.finderecipe.feature.presentation.components.CategoryInfoSection
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.RecipeMealTypeItemScreen
 import com.halilkrkn.finderecipe.ui.theme.Copper
@@ -144,39 +145,6 @@ fun RecipesScreen(
             )
         }
     }
-}
-
-@Composable
-fun CategoryInfoSection(
-    modifier: Modifier = Modifier,
-    title: String,
-    secondTitle: String? = null,
-    onClick: () -> Unit = {},
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = title,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        TextButton(onClick = {
-            onClick()
-        }) {
-            Text(
-                text = secondTitle ?: "",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = DarkMidnightBlue
-            )
-        }
-    }
-    Spacer(modifier = Modifier.height(8.dp))
 }
 
 @Composable

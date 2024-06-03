@@ -8,4 +8,5 @@ interface FindeRecipeRepository {
         suspend fun getRecipes(): AllRecipeResponse
 
         suspend fun getMealTypeRecipes(mealType: String): AllRecipeResponse
+        suspend fun getSearchRecipe(query: String): AllRecipeResponse
 }

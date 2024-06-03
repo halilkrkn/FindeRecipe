@@ -60,6 +60,7 @@ import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.core.util.MealTypes
 import com.halilkrkn.finderecipe.domain.model.MealTypeRecipe
 import com.halilkrkn.finderecipe.domain.model.Recipe
+import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.RecipeMealTypeItemScreen
 import com.halilkrkn.finderecipe.ui.theme.Copper
@@ -111,14 +112,23 @@ fun RecipesScreen(
         ) {
             InfoSection()
             Spacer(modifier = Modifier.height(12.dp))
-            RecentRecipesInfoSection()
+            CategoryInfoSection(
+                title = "Recent Recipes",
+                secondTitle = "See All",
+                onClick = {
+                    navController.navigate(DetailsRoutes.RecipeList.route)
+                }
+            )
             if (recipeList != null) {
-                RecentRecipesItemSection(
+                RecentRecipesListSection(
                     recipeList = recipeList,
                     isLoading = isLoading
                 )
             }
             Spacer(modifier = Modifier.height(12.dp))
+            CategoryInfoSection(
+                title = "Meal Types",
+            )
             InputChipSection(
                 onClick = { mealType ->
                     scope.launch {
@@ -137,22 +147,29 @@ fun RecipesScreen(
 }
 
 @Composable
-fun RecentRecipesInfoSection(modifier: Modifier = Modifier) {
+fun CategoryInfoSection(
+    modifier: Modifier = Modifier,
+    title: String,
+    secondTitle: String? = null,
+    onClick: () -> Unit = {},
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Recent Popular",
+            text = title,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
         )
         Spacer(modifier = Modifier.width(12.dp))
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = {
+            onClick()
+        }) {
             Text(
-                text = "See All",
+                text = secondTitle ?: "",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 color = DarkMidnightBlue
@@ -180,7 +197,7 @@ fun RecipeMealTypeSection(
 }
 
 @Composable
-fun RecentRecipesItemSection(
+fun RecentRecipesListSection(
     modifier: Modifier = Modifier,
     recipeList: List<Recipe>,
     isLoading: Boolean,
@@ -206,65 +223,79 @@ fun RecentRecipesItemSection(
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(recipeList) { recipe ->
-            Column(
-                modifier = Modifier
-                    .clickable {
-                        Log.d("TAG", "RecentRecipesItemSection: ${recipe.title} clicked")
-                    }
-                    .fillMaxWidth()
-                    .size(300.dp, 300.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                SubcomposeAsyncImage(
-                    model = recipe.image,
-                    loading = {
-                        Box(
-                            modifier = Modifier
-                                .background(Color.Black.copy(alpha = 0.1f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LoadingProgressBar(
-                                modifier = Modifier.size(100.dp, 100.dp),
-                                raw = R.raw.loading
-                            )
-                        }
-                    },
-                    error = {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon( // Use an icon to indicate error
-                                imageVector = Icons.Default.Error,
-                                contentDescription = "Failed to load image"
-                            )
-                        }
-                    },
-                    contentDescription = recipe.title,
-                    modifier = Modifier
-                        .size(312.dp, 231.dp)
-                        .clip(RoundedCornerShape(36.dp))
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = recipe.title,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .height(75.dp)
-
-                )
-            }
+            RecentRecipesItemSection(
+                recipe = recipe,
+            )
         }
-
     }
+
     Spacer(modifier = Modifier.height(8.dp))
 }
 
+@Composable
+fun RecentRecipesItemSection(
+    modifier: Modifier = Modifier,
+    recipe: Recipe,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .clickable {
+                    Log.d("TAG", "RecentRecipesItemSection: ${recipe.title} clicked")
+                }
+                .fillMaxWidth()
+                .size(300.dp, 300.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            SubcomposeAsyncImage(
+                model = recipe.image,
+                loading = {
+                    Box(
+                        modifier = Modifier
+                            .background(Color.Black.copy(alpha = 0.1f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingProgressBar(
+                            modifier = Modifier.size(100.dp, 100.dp),
+                            raw = R.raw.loading
+                        )
+                    }
+                },
+                error = {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon( // Use an icon to indicate error
+                            imageVector = Icons.Default.Error,
+                            contentDescription = "Failed to load image"
+                        )
+                    }
+                },
+                contentDescription = recipe.title,
+                modifier = Modifier
+                    .size(312.dp, 231.dp)
+                    .clip(RoundedCornerShape(36.dp))
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = recipe.title,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .height(75.dp)
+
+            )
+        }
+    }
+}
 
 @Composable
 fun InfoSection(modifier: Modifier = Modifier) {

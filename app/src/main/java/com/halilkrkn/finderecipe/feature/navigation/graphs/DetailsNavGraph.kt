@@ -7,9 +7,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.halilkrkn.finderecipe.feature.navigation.routes.BottomBarRoutes
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 import com.halilkrkn.finderecipe.feature.navigation.util.Graphs
 import com.halilkrkn.finderecipe.feature.presentation.main.detail.DetailRecipeScreen
+import com.halilkrkn.finderecipe.feature.presentation.main.favorite.FavoriteRecipesScreen
+import com.halilkrkn.finderecipe.feature.presentation.main.recipe.recipe_list.RecipeListScreen
 
 fun NavGraphBuilder.detailsNavGraph(
     navController: NavHostController,
@@ -26,6 +29,10 @@ fun NavGraphBuilder.detailsNavGraph(
             val recipeId = navBackStackEntry.arguments?.getInt("movieId")
             navBackStackEntry.savedStateHandle.set("recipeId", recipeId)
             DetailRecipeScreen(navController = navController)
+        }
+
+        composable(route = DetailsRoutes.RecipeList.route) {
+            RecipeListScreen(navController = navController)
         }
     }
 }

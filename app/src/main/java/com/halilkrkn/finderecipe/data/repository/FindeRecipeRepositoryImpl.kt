@@ -16,4 +16,8 @@ class FindeRecipeRepositoryImpl @Inject constructor(
     override suspend fun getMealTypeRecipes(mealType: String): AllRecipeResponse {
         return api.getMealTypeRecipes(mealType = mealType)
     }
+
+    override suspend fun getSearchRecipe(query: String): AllRecipeResponse {
+       return api.getSearchRecipes(query = query)
+    }
 }

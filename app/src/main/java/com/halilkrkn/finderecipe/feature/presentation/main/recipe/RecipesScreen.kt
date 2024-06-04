@@ -31,7 +31,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,14 +57,13 @@ import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.core.util.MealTypes
-import com.halilkrkn.finderecipe.domain.model.MealTypeRecipe
-import com.halilkrkn.finderecipe.domain.model.Recipe
+import com.halilkrkn.finderecipe.domain.model.recipe.MealTypeRecipe
+import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 import com.halilkrkn.finderecipe.feature.presentation.components.CategoryInfoSection
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.RecipeMealTypeItemScreen
 import com.halilkrkn.finderecipe.ui.theme.Copper
-import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import com.halilkrkn.finderecipe.ui.theme.OxfordBlue
 import kotlinx.coroutines.launch
@@ -141,7 +139,9 @@ fun RecipesScreen(
             )
             Spacer(modifier = Modifier.height(12.dp))
             RecipeMealTypeSection(
-                mealTypes = mealTypeRecipeList ?: emptyList()
+                mealTypes = mealTypeRecipeList ?: emptyList(),
+                navController = navController,
+                isLoading = isLoading
             )
         }
     }
@@ -151,15 +151,31 @@ fun RecipesScreen(
 fun RecipeMealTypeSection(
     modifier: Modifier = Modifier,
     mealTypes: List<MealTypeRecipe>,
+    navController: NavController,
+    isLoading: Boolean,
 ) {
+    if (isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .size(120.dp)
+                .padding(24.dp),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            LoadingProgressBar(
+                raw = R.raw.loading
+            )
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .requiredHeight(600.dp)
     ) {
         RecipeMealTypeItemScreen(
-            isRefreshing = true,
             mealTypes = mealTypes,
+            navController = navController,
         )
     }
 }
@@ -176,7 +192,7 @@ fun RecentRecipesListSection(
                 .fillMaxSize()
                 .size(120.dp, 120.dp)
                 .padding(24.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.TopCenter
         ) {
             LoadingProgressBar(
                 raw = R.raw.loading
@@ -238,7 +254,7 @@ fun RecentRecipesItemSection(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon( // Use an icon to indicate error
+                        Icon(
                             imageVector = Icons.Default.Error,
                             contentDescription = "Failed to load image"
                         )

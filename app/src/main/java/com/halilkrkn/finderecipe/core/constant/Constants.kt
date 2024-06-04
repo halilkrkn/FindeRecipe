@@ -7,4 +7,5 @@ object Constants {
     const val BASE_URL = "https://api.spoonacular.com/"
     const val API_KEY = BuildConfig.API_KEY
     const val RECIPE_ID = "recipe_id"
+    const val IMAGE_URL = "https://img.spoonacular.com/ingredients_250x250/"
 }

@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.halilkrkn.finderecipe.R
-import com.halilkrkn.finderecipe.domain.model.Recipe
+import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 
 @Composable
 fun RecipeListItem(

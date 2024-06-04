@@ -140,7 +140,8 @@ fun RecipesScreen(
             Spacer(modifier = Modifier.height(12.dp))
             RecipeMealTypeSection(
                 mealTypes = mealTypeRecipeList ?: emptyList(),
-                navController = navController
+                navController = navController,
+                isLoading = isLoading
             )
         }
     }
@@ -151,15 +152,28 @@ fun RecipeMealTypeSection(
     modifier: Modifier = Modifier,
     mealTypes: List<MealTypeRecipe>,
     navController: NavController,
+    isLoading: Boolean,
 ) {
-    Log.d("TAG", "RecipeMealTypeSection1: ${mealTypes.map { it.id }}")
+    if (isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .size(120.dp)
+                .padding(24.dp),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            LoadingProgressBar(
+                raw = R.raw.loading
+            )
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .requiredHeight(600.dp)
     ) {
         RecipeMealTypeItemScreen(
-            isRefreshing = true,
             mealTypes = mealTypes,
             navController = navController,
         )
@@ -178,7 +192,7 @@ fun RecentRecipesListSection(
                 .fillMaxSize()
                 .size(120.dp, 120.dp)
                 .padding(24.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.TopCenter
         ) {
             LoadingProgressBar(
                 raw = R.raw.loading

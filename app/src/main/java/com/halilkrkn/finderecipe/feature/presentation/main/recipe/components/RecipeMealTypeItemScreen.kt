@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -17,15 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.domain.model.recipe.MealTypeRecipe
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
+import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedAnimatable")
 @Composable
 fun RecipeMealTypeItemScreen(
-    isRefreshing: Boolean,
     mealTypes: List<MealTypeRecipe>,
     navController: NavController,
 ) {
@@ -47,8 +49,6 @@ fun RecipeMealTypeItemScreen(
         ) {
 
             items(mealTypes) { mealType ->
-                Log.d("TAG", "RecipeMealTypeSection2: ${mealType.id}")
-
                 RecipeMealTypeItem(
                     theMeal = mealType,
                     modifier = Modifier.fillMaxWidth(),
@@ -57,7 +57,8 @@ fun RecipeMealTypeItemScreen(
                             DetailsRoutes.Detail.route + "/${mealType.id}"
 //                            DetailsRoutes.Detail.route
                         )
-                    }
+                    },
+
                 )
             }
         }

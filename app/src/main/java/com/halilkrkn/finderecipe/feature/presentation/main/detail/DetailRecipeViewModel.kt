@@ -29,7 +29,7 @@ class DetailRecipeViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    private val ids = savedStateHandle.get<String>("recipeId") ?: "0"
+    private val recipeId: String = (savedStateHandle.get<Int>("recipeId") ?: 0).toString()
 
     private var job: Job? = null
 
@@ -37,8 +37,8 @@ class DetailRecipeViewModel @Inject constructor(
 //        getRecipeDetail(id = id)
 //    }
     init {
-    Log.d("TAG", "ids: $ids")
-        getRecipeDetail(ids.toInt())
+    Log.d("TAG", "ids: $recipeId")
+        getRecipeDetail(id = recipeId.toInt())
     }
 
     private fun getRecipeDetail(id: Int) {
@@ -49,10 +49,10 @@ class DetailRecipeViewModel @Inject constructor(
                 when (result) {
                     is Resource.Success -> {
 
-                        val campaign = result.data
+                        val recipeDetail = result.data
                         _state.value = DetailRecipeState(
                             isLoading = false,
-                            recipeDetail = null,
+                            recipeDetail = recipeDetail,
                             error = ""
                         )
                     }

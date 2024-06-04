@@ -11,7 +11,6 @@ data class RecipeDetail(
     val image: String,
     val imageType: String,
     val instructions: String,
-    val originalId: Any,
     val preparationMinutes: Int,
     val pricePerServing: Double,
     val readyInMinutes: Int,

@@ -40,8 +40,6 @@ fun RecipeMealTypeItem(
     onItemClick: (MealTypeRecipe) -> Unit,
 //    onItemClick: () -> Unit,
 ) {
-    Log.d("TAG", "RecipeMealTypeSection4: ${theMeal.id}")
-
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -58,8 +56,6 @@ fun RecipeMealTypeItem(
                 .clickable {
 //                        onItemClick(theMeal)
                         onItemClick(theMeal)
-                    Log.d("TAG", "RecipeMealTypeSection5: ${theMeal.id}")
-
                 }
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(20.dp)),

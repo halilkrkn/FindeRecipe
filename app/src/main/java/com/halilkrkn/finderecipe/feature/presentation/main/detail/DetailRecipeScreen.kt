@@ -2,7 +2,6 @@
 
 package com.halilkrkn.finderecipe.feature.presentation.main.detail
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -57,24 +57,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.core.constant.Constants.IMAGE_URL
+import com.halilkrkn.finderecipe.core.util.DetailRecipeEvents
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.main.detail.components.CookingInstructionsSteps
 import com.halilkrkn.finderecipe.feature.presentation.main.detail.components.InstructionsNowBottomSheet
 import com.halilkrkn.finderecipe.ui.theme.Coral
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
-import com.halilkrkn.finderecipe.ui.theme.FloralWhite2
 import com.halilkrkn.finderecipe.ui.theme.PastelBlue
 
 @Composable
 fun DetailRecipeScreen(
     navController: NavController,
-//    recipeId: Int? = null,
     viewModel: DetailRecipeViewModel = hiltViewModel(),
 ) {
     val sheetState = rememberModalBottomSheetState()
@@ -92,7 +90,12 @@ fun DetailRecipeScreen(
             TopAppBar(
                 title = {
                     if (recipeDetail != null) {
-                        Text(text = recipeDetail.title)
+                        Text(
+                            text = recipeDetail.title,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black
+                        )
                     }
                 },
                 navigationIcon = {
@@ -119,49 +122,47 @@ fun DetailRecipeScreen(
             ) {
                 Box {
                     // Image
-                    if (recipeDetail != null) {
-                        SubcomposeAsyncImage(
-                            model = recipeDetail.image,
-                            loading = {
-                                Box(
-                                    modifier = Modifier
-                                        .background(Color.Black.copy(alpha = 0.1f)),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    LoadingProgressBar(
-                                        modifier = Modifier.size(100.dp, 100.dp),
-                                        raw = R.raw.loading
-                                    )
-                                }
-                            },
-                            error = {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon( // Use an icon to indicate error
-                                        imageVector = Icons.Default.Error,
-                                        contentDescription = "Failed to load image"
-                                    )
-                                }
-                            },
-                            contentDescription = "recipe.title",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 8.dp, end = 8.dp)
-                                .size(312.dp, 300.dp)
-                                .clip(RoundedCornerShape(36.dp)),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
+                    SubcomposeAsyncImage(
+                        model = recipeDetail.image,
+                        loading = {
+                            Box(
+                                modifier = Modifier
+                                    .background(Color.Black.copy(alpha = 0.1f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                LoadingProgressBar(
+                                    modifier = Modifier.size(100.dp, 100.dp),
+                                    raw = R.raw.loading
+                                )
+                            }
+                        },
+                        error = {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon( // Use an icon to indicate error
+                                    imageVector = Icons.Default.Error,
+                                    contentDescription = "Failed to load image"
+                                )
+                            }
+                        },
+                        contentDescription = "recipe.title",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 8.dp, end = 8.dp)
+                            .size(312.dp, 275.dp)
+                            .clip(RoundedCornerShape(36.dp)),
+                        contentScale = ContentScale.Crop
+                    )
                 }
-                val events = mutableListOf(
-                    DetailRecipeEvent.Popular,
-                    DetailRecipeEvent.ReadyInMinutes,
-                    DetailRecipeEvent.Servings,
-                    DetailRecipeEvent.Likes,
-                    DetailRecipeEvent.HealthScore
-                )
+
+
+                val detailEvents = DetailRecipeEvents(recipeDetail = recipeDetail)
+                val events = listOf(
+                    detailEvents.events
+                ).first()
+
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyRow(
                     modifier = Modifier
@@ -170,7 +171,7 @@ fun DetailRecipeScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    items(events) {
+                    items(events) { detailRecipeEvent ->
                         Column(
                             modifier = Modifier
                                 .padding(8.dp)
@@ -179,30 +180,28 @@ fun DetailRecipeScreen(
                                 ),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            it.icon?.let {
-                                Image(
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .size(32.dp),
-                                    painter = painterResource(id = it),
-                                    contentDescription = "icon"
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = it.text,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.W500,
-                                color = Color.Black
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "6.4",
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.W500,
-                                color = Color.Black
+                            Image(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .size(32.dp),
+                                painter = painterResource(id = detailRecipeEvent.icon),
+                                contentDescription = "icon"
                             )
 
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = detailRecipeEvent.text,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.W500,
+                                color = Color.Black
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = detailRecipeEvent.result,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.W500,
+                                color = Color.Black
+                            )
                         }
                     }
                 }
@@ -225,7 +224,10 @@ fun DetailRecipeScreen(
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp),
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         items(recipeDetail.extendedIngredients) { ingredient ->
                             Row(
@@ -239,9 +241,9 @@ fun DetailRecipeScreen(
                             ) {
                                 Box(
                                     modifier = Modifier
-                                        .size(60.dp)
+                                        .requiredSize(60.dp)
                                         .background(
-                                            color = FloralWhite2,
+                                            color = Color.Transparent,
                                             shape = RoundedCornerShape(12.dp)
                                         ),
                                     contentAlignment = Alignment.Center
@@ -273,8 +275,7 @@ fun DetailRecipeScreen(
                                         },
                                         contentDescription = "recipe.title",
                                         modifier = Modifier
-                                            .fillMaxWidth()
-                                            .clip(RoundedCornerShape(36.dp)),
+                                            .fillMaxWidth(),
                                         contentScale = ContentScale.Crop
                                     )
                                 }
@@ -312,7 +313,7 @@ fun DetailRecipeScreen(
                     }
                     Column {
                         Text(
-                            text = recipeDetail.summary,
+                            text = recipeDetail.title,
                             modifier = Modifier.padding(16.dp)
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -353,8 +354,8 @@ fun DetailRecipeScreen(
                         sheetState = sheetState,
                         showBottomSheet = showBottomSheet,
                         recipeDetail = recipeDetail
-                    ) {recipeDetail ->
-                        CookingInstructionsSteps(recipeDetail = recipeDetail )
+                    ) { recipeDetail ->
+                        CookingInstructionsSteps(recipeDetail = recipeDetail)
                     }
                     Column {
                         Text(
@@ -427,33 +428,38 @@ fun DetailRecipeScreen(
                     }
 
                 }
-
+                if (loading) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingProgressBar(
+                            modifier = Modifier,
+                            raw = R.raw.loading
+                        )
+                    }
+                }
+                if (error != null) {
+                    if (error.isNotBlank()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = error,
+                                color = Color.Red,
+                                fontSize = 16.sp
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-sealed class DetailRecipeEvent(
-    @DrawableRes
-    val icon: Int? = null,
-    val text: String,
-    val result: String? = null,
-) {
-    data object Popular :
-        DetailRecipeEvent(icon = R.drawable.popular, text = "Popular", result = "6.4")
-
-    data object ReadyInMinutes :
-        DetailRecipeEvent(icon = R.drawable.ready_in_minutes, text = "Minutes", result = "6.4")
-
-    data object Servings :
-        DetailRecipeEvent(icon = R.drawable.servings, text = "Servings", result = "6.4")
-
-    data object Likes :
-        DetailRecipeEvent(icon = R.drawable.appreciation_likes, text = "Likes", result = "6.4")
-
-    data object HealthScore :
-        DetailRecipeEvent(icon = R.drawable.healt_score, text = "Health Score", result = "6.4")
-}
 
 @Preview
 @Composable

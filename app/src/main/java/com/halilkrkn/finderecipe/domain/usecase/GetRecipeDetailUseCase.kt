@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetRecipeDetailUseCase @Inject constructor(
-    private val repository: FindeRecipeRepository
+    private val repository: FindeRecipeRepository,
 ) {
-    suspend fun getRecipeDetail(id: Int) : Flow<Resource<RecipeDetail?>> = flow {
+    suspend fun getRecipeDetail(id: Int): Flow<Resource<RecipeDetail?>> = flow {
         emit(Resource.Loading())
-        val recipeDetail = repository.getRecipeDetail(id=id).body()?.toRecipeDetail()
-        val response = repository.getRecipeDetail(id=id)
+        val recipeDetail = repository.getRecipeDetail(id = id).body()?.toRecipeDetail()
+        val response = repository.getRecipeDetail(id = id)
 
         if (response.isSuccessful) {
             emit(Resource.Success(recipeDetail))

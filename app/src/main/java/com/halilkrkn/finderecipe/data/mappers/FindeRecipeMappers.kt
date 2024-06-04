@@ -47,7 +47,6 @@ fun RecipeDetailResponse.toRecipeDetail() = RecipeDetail(
     image = image,
     imageType = imageType,
     instructions = instructions,
-    originalId = originalId,
     preparationMinutes = preparationMinutes,
     pricePerServing = pricePerServing,
     readyInMinutes = readyInMinutes,

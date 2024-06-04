@@ -50,14 +50,6 @@ fun SearchRecipesScreen(
                 title = {
                     Text(text = "Search Recipes")
                 },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                },
                 colors = TopAppBarDefaults.smallTopAppBarColors(
                     containerColor = FloralWhite
                 )

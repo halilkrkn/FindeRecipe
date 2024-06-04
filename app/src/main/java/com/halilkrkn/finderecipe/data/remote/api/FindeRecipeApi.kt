@@ -3,7 +3,10 @@ package com.halilkrkn.finderecipe.data.remote.api
 
 import com.halilkrkn.finderecipe.core.constant.Constants.API_KEY
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe.AllRecipeResponse
+import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.RecipeDetailResponse
+import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface FindeRecipeApi {
@@ -34,5 +37,13 @@ interface FindeRecipeApi {
         @Query("apiKey")
         apiKey: String = API_KEY,
     ): AllRecipeResponse
+
+    @GET("recipes/{id}/information")
+    suspend fun getRecipeDetail(
+        @Path("id")
+        id: Int,
+        @Query("apiKey")
+        apiKey: String = API_KEY,
+    ): Response<RecipeDetailResponse>
 }
 

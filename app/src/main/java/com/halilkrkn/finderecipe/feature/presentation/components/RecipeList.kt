@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
-import com.halilkrkn.finderecipe.domain.model.Recipe
+import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.ui.theme.Copper
 import com.halilkrkn.finderecipe.ui.theme.LemonMeringue
 

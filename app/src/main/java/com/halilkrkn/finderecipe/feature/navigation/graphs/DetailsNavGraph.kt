@@ -26,10 +26,13 @@ fun NavGraphBuilder.detailsNavGraph(
                 defaultValue = -1
                 type = NavType.IntType },
             )) {navBackStackEntry ->
-            val recipeId = navBackStackEntry.arguments?.getInt("movieId")
-            navBackStackEntry.savedStateHandle.set("recipeId", recipeId)
+            val recipeId = navBackStackEntry.arguments?.getInt("recipeId")
+            navBackStackEntry.savedStateHandle.set<String>("recipeId", recipeId.toString())
             DetailRecipeScreen(navController = navController)
         }
+//        composable(route = DetailsRoutes.Detail.route) {
+//            DetailRecipeScreen(navController = navController)
+//        }
 
         composable(route = DetailsRoutes.RecipeList.route) {
             RecipeListScreen(navController = navController)

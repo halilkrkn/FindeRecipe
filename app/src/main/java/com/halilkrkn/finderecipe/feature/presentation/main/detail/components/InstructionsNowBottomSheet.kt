@@ -14,6 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.SecureFlagPolicy
+import com.halilkrkn.finderecipe.domain.model.recipe_detail.RecipeDetail
 import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import kotlinx.coroutines.launch
@@ -24,7 +25,8 @@ fun InstructionsNowBottomSheet(
     modifier: Modifier = Modifier,
     sheetState: SheetState,
     showBottomSheet: MutableState<Boolean>,
-    contentScreen: @Composable () -> Unit,
+    recipeDetail: RecipeDetail,
+    contentScreen: @Composable (RecipeDetail) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     if (showBottomSheet.value) {
@@ -57,7 +59,7 @@ fun InstructionsNowBottomSheet(
 
         ) {
             // Sheet content
-            contentScreen()
+            contentScreen(recipeDetail)
         }
     }
 }

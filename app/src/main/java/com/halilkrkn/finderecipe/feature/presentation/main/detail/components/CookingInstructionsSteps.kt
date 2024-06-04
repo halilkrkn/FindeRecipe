@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
@@ -31,24 +32,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
+import com.halilkrkn.finderecipe.domain.model.recipe_detail.AnalyzedInstruction
+import com.halilkrkn.finderecipe.domain.model.recipe_detail.RecipeDetail
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.ui.theme.PastelBlue
 
 @Composable
-fun CookingInstructionsSteps(modifier: Modifier = Modifier) {
+fun CookingInstructionsSteps(
+    modifier: Modifier = Modifier,
+    recipeDetail: RecipeDetail
+    ) {
     Column(
         modifier = Modifier.wrapContentSize()
     ) {
         LazyColumn {
-            items(10) {
-                InstructionSteps()
+            items(recipeDetail.analyzedInstructions) { instruction ->
+                InstructionSteps(
+                    instruction = instruction
+                )
             }
         }
     }
 }
 
 @Composable
-fun InstructionSteps() {
+fun InstructionSteps(
+    instruction: AnalyzedInstruction
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,13 +66,13 @@ fun InstructionSteps() {
     ) {
         Row {
             Text(
-                text = "1.",
+                text = instruction.steps.first().number.toString(),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Instruction 1",
+                text = instruction.steps.first().step,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Light,
             )
@@ -81,7 +91,7 @@ fun InstructionSteps() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(5) {
+            items(instruction.steps.first().ingredients) { ingredient ->
                 Column(
                     modifier = Modifier
                         .size(100.dp)
@@ -93,7 +103,7 @@ fun InstructionSteps() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     SubcomposeAsyncImage(
-                        model = "https://img.spoonacular.com/ingredients_250x250/cooked-chicken-breast.png",
+                        model = ingredient.image,
                         loading = {
                             Box(
                                 modifier = Modifier
@@ -124,7 +134,7 @@ fun InstructionSteps() {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Chicken Breast",
+                        text = ingredient.name,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W500,
                         color = Color.Black

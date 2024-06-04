@@ -1,5 +1,6 @@
 package com.halilkrkn.finderecipe.feature.presentation.main.recipe.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,18 +28,19 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.core.util.MealTypes
-import com.halilkrkn.finderecipe.domain.model.MealTypeRecipe
+import com.halilkrkn.finderecipe.domain.model.recipe.MealTypeRecipe
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite2
-import com.halilkrkn.finderecipe.ui.theme.LightYellow
 
 
 @Composable
 fun RecipeMealTypeItem(
     theMeal: MealTypeRecipe,
     modifier: Modifier = Modifier,
-    onItemClick: (MealTypes) -> Unit,
+    onItemClick: (MealTypeRecipe) -> Unit,
+//    onItemClick: () -> Unit,
 ) {
+    Log.d("TAG", "RecipeMealTypeSection4: ${theMeal.id}")
 
     Card(
         modifier = modifier
@@ -55,6 +57,9 @@ fun RecipeMealTypeItem(
             modifier = Modifier
                 .clickable {
 //                        onItemClick(theMeal)
+                        onItemClick(theMeal)
+                    Log.d("TAG", "RecipeMealTypeSection5: ${theMeal.id}")
+
                 }
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(20.dp)),

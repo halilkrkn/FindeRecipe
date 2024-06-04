@@ -2,7 +2,7 @@ package com.halilkrkn.finderecipe.domain.usecase
 
 import com.halilkrkn.finderecipe.core.resource.Resource
 import com.halilkrkn.finderecipe.data.mappers.toRecipe
-import com.halilkrkn.finderecipe.domain.model.Recipe
+import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.domain.repository.FindeRecipeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

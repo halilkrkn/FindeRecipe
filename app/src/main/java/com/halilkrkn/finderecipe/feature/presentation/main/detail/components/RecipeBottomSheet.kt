@@ -47,14 +47,13 @@ fun RecipeBottomSheet(
                     },
                     color = DarkMidnightBlue,
                     shape = MaterialTheme.shapes.extraSmall,
-                    width = 80.dp,
+                    width = 60.dp,
                     height = 3.dp
                 )
             },
             properties = ModalBottomSheetDefaults.properties(
                 securePolicy = SecureFlagPolicy.Inherit
             )
-
         ) {
             // Sheet content
             contentScreen()

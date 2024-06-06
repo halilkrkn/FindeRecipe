@@ -27,11 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.R
+import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.components.RecipeListItem
 import com.halilkrkn.finderecipe.feature.presentation.components.SearchBar
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
@@ -96,9 +98,7 @@ fun SearchRecipesScreen(
                 RecipeListItem(
                     recipeList = recipeList,
                     isLoading = isLoading,
-                    onItemClicked = { recipe ->
-                        navController.navigate("recipe_detail/${recipe.id}")
-                    }
+                    navController = navController,
                 )
             }
             if (state.isLoading) {

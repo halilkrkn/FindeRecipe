@@ -34,11 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
-import com.halilkrkn.finderecipe.domain.model.recipe_detail.AnalyzedInstruction
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.RecipeDetail
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.Step
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
-import com.halilkrkn.finderecipe.ui.theme.PastelBlue
 
 @Composable
 fun CookingInstructionsSteps(

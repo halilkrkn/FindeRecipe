@@ -8,6 +8,7 @@ import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.Measures
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.MetricResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.RecipeDetailResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.StepResponse
+import com.halilkrkn.finderecipe.data.remote.dto.response.similar_recipe.SimilarRecipeResponse
 import com.halilkrkn.finderecipe.domain.model.recipe.MealTypeRecipe
 import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.AnalyzedInstruction
@@ -17,6 +18,7 @@ import com.halilkrkn.finderecipe.domain.model.recipe_detail.Measures
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.Metric
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.RecipeDetail
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.Step
+import com.halilkrkn.finderecipe.domain.model.similar_recipe.SimilarRecipe
 
 fun RecipeResponse.toRecipe() = Recipe(
     id = id,
@@ -106,3 +108,12 @@ fun MealTypeRecipe.toRecipe() = Recipe(
     title = title
 )
 
+
+fun SimilarRecipeResponse.toSimilarRecipe() = SimilarRecipe(
+    id = id,
+    imageType = imageType,
+    readyInMinutes = readyInMinutes,
+    servings = servings,
+    sourceUrl = sourceUrl,
+    title = title
+)

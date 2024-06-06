@@ -14,15 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
+import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 
 @Composable
 fun RecipeListItem(
     modifier: Modifier = Modifier,
-    recipeList: List<Recipe>,
+    recipeList: List<Recipe>? = emptyList(),
     isLoading: Boolean = false,
-    onItemClicked: (Recipe) -> Unit
+    navController: NavController,
+//    onItemClicked: (Recipe) -> Unit
 ) {
     if (isLoading) {
         Box(
@@ -45,13 +48,15 @@ fun RecipeListItem(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalItemSpacing = 16.dp
     ) {
-        items(recipeList) { recipe ->
-            RecipeList(
-                recipe = recipe,
-                onItemClick = { recipeItem ->
-                    onItemClicked(recipeItem)
-                }
-            )
+        if (recipeList != null) {
+            items(recipeList) { recipe ->
+                RecipeList(
+                    recipe = recipe,
+                    onItemClick = { recipeItem ->
+                        navController.navigate(DetailsRoutes.Detail.route.plus("/${recipeItem.id}"))
+                    }
+                )
+            }
         }
     }
 

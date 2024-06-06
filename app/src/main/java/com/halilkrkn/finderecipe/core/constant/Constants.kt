@@ -8,4 +8,5 @@ object Constants {
     const val API_KEY = BuildConfig.API_KEY
     const val RECIPE_ID = "recipe_id"
     const val IMAGE_URL = "https://img.spoonacular.com/ingredients_250x250/"
+    const val SIMILAR_IMAGE_URL = "https://img.spoonacular.com/recipes/"
 }

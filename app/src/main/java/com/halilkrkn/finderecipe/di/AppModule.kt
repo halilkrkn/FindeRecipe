@@ -8,6 +8,7 @@ import com.halilkrkn.finderecipe.domain.usecase.GetAllRecipesUseCase
 import com.halilkrkn.finderecipe.domain.usecase.GetMealTypeRecipesUseCase
 import com.halilkrkn.finderecipe.domain.usecase.GetRecipeDetailUseCase
 import com.halilkrkn.finderecipe.domain.usecase.GetSearchRecipesUseCase
+import com.halilkrkn.finderecipe.domain.usecase.GetSimilarRecipesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +33,8 @@ object AppModule {
             getAllRecipesUseCase = GetAllRecipesUseCase(repository),
             getMealTypeRecipesUseCase = GetMealTypeRecipesUseCase(repository),
             getSearchRecipesUseCase = GetSearchRecipesUseCase(repository),
-            getRecipeDetailUseCase = GetRecipeDetailUseCase(repository)
+            getRecipeDetailUseCase = GetRecipeDetailUseCase(repository),
+            getSimilarRecipesUseCase = GetSimilarRecipesUseCase(repository)
         )
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -77,6 +78,7 @@ fun RecipesScreen(
     val scope = rememberCoroutineScope()
     val state = viewModel.state.value
     val isLoading = state.isLoading
+    val error = state.error
     val recipeList = state.recipeList
 
     val mealTypeRecipeList = viewModel.stateMealType.value.mealTypesList
@@ -121,7 +123,8 @@ fun RecipesScreen(
             if (recipeList != null) {
                 RecentRecipesListSection(
                     recipeList = recipeList,
-                    isLoading = isLoading
+                    isLoading = isLoading,
+                    navController = navController
                 )
             }
             Spacer(modifier = Modifier.height(12.dp))
@@ -141,7 +144,8 @@ fun RecipesScreen(
             RecipeMealTypeSection(
                 mealTypes = mealTypeRecipeList ?: emptyList(),
                 navController = navController,
-                isLoading = isLoading
+                isLoading = isLoading,
+                error = error
             )
         }
     }
@@ -153,6 +157,7 @@ fun RecipeMealTypeSection(
     mealTypes: List<MealTypeRecipe>,
     navController: NavController,
     isLoading: Boolean,
+    error: String ?= null
 ) {
     if (isLoading) {
         Box(
@@ -164,6 +169,27 @@ fun RecipeMealTypeSection(
         ) {
             LoadingProgressBar(
                 raw = R.raw.loading
+            )
+        }
+    }
+
+    if (mealTypes.isEmpty() && !isLoading) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            LoadingProgressBar(
+                modifier = Modifier
+                    .size(width = 200.dp, height = 200.dp),
+                raw = R.raw.image_error
+            )
+            Text(
+                text = if (mealTypes.isEmpty()) "No answer found for meal types!" else error ?: "No answer found for meal types",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
             )
         }
     }
@@ -185,6 +211,7 @@ fun RecentRecipesListSection(
     modifier: Modifier = Modifier,
     recipeList: List<Recipe>,
     isLoading: Boolean,
+    navController: NavController,
 ) {
     if (isLoading) {
         Box(
@@ -199,6 +226,27 @@ fun RecentRecipesListSection(
             )
         }
     }
+
+    if (recipeList.isEmpty() && !isLoading) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            LoadingProgressBar(
+                modifier = Modifier
+                    .size(width = 200.dp, height = 200.dp),
+                raw = R.raw.image_error
+            )
+            Text(
+                text = if (recipeList.isEmpty()) "No answer found for meal types!" else "No answer found for meal types",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
+        }
+    }
     LazyRow(
         modifier = modifier
             .fillMaxWidth()
@@ -209,6 +257,9 @@ fun RecentRecipesListSection(
         items(recipeList) { recipe ->
             RecentRecipesItemSection(
                 recipe = recipe,
+                onClick = {
+                    navController.navigate(DetailsRoutes.Detail.route.plus("/${recipe.id}"))
+                }
             )
         }
     }
@@ -220,6 +271,7 @@ fun RecentRecipesListSection(
 fun RecentRecipesItemSection(
     modifier: Modifier = Modifier,
     recipe: Recipe,
+    onClick: (Recipe) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -228,7 +280,7 @@ fun RecentRecipesItemSection(
         Column(
             modifier = Modifier
                 .clickable {
-                    Log.d("TAG", "RecentRecipesItemSection: ${recipe.title} clicked")
+                    onClick(recipe)
                 }
                 .fillMaxWidth()
                 .size(300.dp, 300.dp),

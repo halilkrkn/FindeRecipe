@@ -34,7 +34,7 @@ class RecipeListViewModel @Inject constructor(
     private var job: Job? = null
 
     init {
-        getSearchRecipe(query = "")
+        getSearchRecipe(query = "chicken")
     }
 
     fun onSearch(query: String) {

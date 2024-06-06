@@ -49,7 +49,9 @@ fun RecipeList(
         Column(
             modifier = Modifier
                 .clickable {
-//                        onItemClick(theMeal)
+                    if (recipe != null) {
+                        onItemClick(recipe)
+                    }
                 }
                 .background(
                     brush = Brush.sweepGradient(

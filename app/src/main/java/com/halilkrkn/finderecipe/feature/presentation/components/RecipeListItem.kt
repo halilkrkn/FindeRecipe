@@ -22,10 +22,9 @@ import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 @Composable
 fun RecipeListItem(
     modifier: Modifier = Modifier,
-    recipeList: List<Recipe>? = emptyList(),
+    recipeList: List<Recipe>,
     isLoading: Boolean = false,
     navController: NavController,
-//    onItemClicked: (Recipe) -> Unit
 ) {
     if (isLoading) {
         Box(
@@ -48,15 +47,13 @@ fun RecipeListItem(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalItemSpacing = 16.dp
     ) {
-        if (recipeList != null) {
-            items(recipeList) { recipe ->
-                RecipeList(
-                    recipe = recipe,
-                    onItemClick = { recipeItem ->
-                        navController.navigate(DetailsRoutes.Detail.route.plus("/${recipeItem.id}"))
-                    }
-                )
-            }
+        items(recipeList) { recipe ->
+            RecipeList(
+                recipe = recipe,
+                onItemClick = { recipeItem ->
+                    navController.navigate(DetailsRoutes.Detail.route.plus("/${recipeItem.id}"))
+                }
+            )
         }
     }
 

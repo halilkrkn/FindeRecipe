@@ -77,11 +77,6 @@ fun SearchRecipesScreen(
                             .fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-//                        CategoryInfoSection(
-//                            title = "Cuisines by Country",
-//                            secondTitle = "See All",
-//                            onClick = { TODO() }
-//                        )
                         LoadingProgressBar(
                             modifier = Modifier
                                 .size(width = 200.dp, height = 200.dp),
@@ -114,16 +109,3 @@ fun SearchRecipesScreen(
         }
     }
 }
-
-//@Composable
-//fun CuisinesCategories(modifier: Modifier = Modifier) {
-//
-//    LazyColumn {
-//        items(8) {
-//            Card {
-//
-//            }
-//        }
-//
-//    }
-//}

@@ -9,7 +9,6 @@ import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.MetricRe
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.RecipeDetailResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.StepResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.similar_recipe.SimilarRecipeResponse
-import com.halilkrkn.finderecipe.domain.model.recipe.MealTypeRecipe
 import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.AnalyzedInstruction
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.ExtendedIngredient
@@ -27,12 +26,6 @@ fun RecipeResponse.toRecipe() = Recipe(
     title = title
 )
 
-fun RecipeResponse.toMealTypeRecipe() = MealTypeRecipe(
-    id = id,
-    image = image,
-    imageType = imageType,
-    title = title
-)
 
 fun RecipeDetailResponse.toRecipeDetail() = RecipeDetail(
     id = id,
@@ -100,14 +93,6 @@ fun MetricResponse.toMetric() = Metric(
     unitLong = unitLong,
     unitShort = unitShort
 )
-
-fun MealTypeRecipe.toRecipe() = Recipe(
-    id = id,
-    image = image,
-    imageType = imageType,
-    title = title
-)
-
 
 fun SimilarRecipeResponse.toSimilarRecipe() = SimilarRecipe(
     id = id,

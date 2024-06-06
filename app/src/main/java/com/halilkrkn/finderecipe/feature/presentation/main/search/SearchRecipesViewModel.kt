@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halilkrkn.finderecipe.core.resource.Resource
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
-import com.halilkrkn.finderecipe.feature.presentation.main.recipe.state.RecipeState
+import com.halilkrkn.finderecipe.feature.presentation.main.search.state.SearchRecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

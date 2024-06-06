@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.core.constant.Constants
-import com.halilkrkn.finderecipe.core.constant.Constants.IMAGE_URL
 import com.halilkrkn.finderecipe.domain.model.recipe_detail.RecipeDetail
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 

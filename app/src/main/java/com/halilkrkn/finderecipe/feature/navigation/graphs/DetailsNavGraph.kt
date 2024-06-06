@@ -9,7 +9,7 @@ import androidx.navigation.navigation
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 import com.halilkrkn.finderecipe.feature.navigation.util.Graphs
 import com.halilkrkn.finderecipe.feature.presentation.main.detail.DetailRecipeScreen
-import com.halilkrkn.finderecipe.feature.presentation.main.recipe.recipe_list.RecipeListScreen
+import com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe.RecipeListScreen
 
 fun NavGraphBuilder.detailsNavGraph(
     navController: NavHostController,

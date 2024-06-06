@@ -1,4 +1,4 @@
-package com.halilkrkn.finderecipe.feature.presentation.components
+package com.halilkrkn.finderecipe.feature.presentation.main.recipe.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

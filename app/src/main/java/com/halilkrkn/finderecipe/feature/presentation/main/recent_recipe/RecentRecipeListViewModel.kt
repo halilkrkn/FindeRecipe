@@ -1,4 +1,4 @@
-package com.halilkrkn.finderecipe.feature.presentation.main.recipe.recipe_list
+package com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halilkrkn.finderecipe.core.resource.Resource
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
-import com.halilkrkn.finderecipe.feature.presentation.main.recipe.state.RecipeState
+import com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe.state.RecentRecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,11 +19,11 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipeListViewModel @Inject constructor(
+class RecentRecipeListViewModel @Inject constructor(
     private val recipeUseCases: FindeRecipeUseCases,
 ) : ViewModel() {
-    private val _state = mutableStateOf(RecipeState())
-    val state: State<RecipeState> = _state
+    private val _state = mutableStateOf(RecentRecipeState())
+    val state: State<RecentRecipeState> = _state
 
     private val _searchQuery = mutableStateOf<String>("")
     val searchQuery: State<String> = _searchQuery
@@ -34,7 +34,7 @@ class RecipeListViewModel @Inject constructor(
     private var job: Job? = null
 
     init {
-        getSearchRecipe(query = "chicken")
+        getSearchRecipe(query = "")
     }
 
     fun onSearch(query: String) {
@@ -52,7 +52,7 @@ class RecipeListViewModel @Inject constructor(
                         is Resource.Success -> {
 
                             val recipeList = result.data
-                            _state.value = RecipeState(
+                            _state.value = RecentRecipeState(
                                 isLoading = false,
                                 recipeList = recipeList,
                                 error = ""
@@ -60,14 +60,14 @@ class RecipeListViewModel @Inject constructor(
                         }
 
                         is Resource.Loading -> {
-                            _state.value = RecipeState(
+                            _state.value = RecentRecipeState(
                                 isLoading = true,
                                 error = ""
                             )
                         }
 
                         is Resource.Error -> {
-                            _state.value = RecipeState(
+                            _state.value = RecentRecipeState(
                                 isLoading = false,
                                 error = result.message
                             )

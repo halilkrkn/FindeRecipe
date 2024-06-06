@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.halilkrkn.finderecipe.feature.presentation.main.recipe.recipe_list
+package com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.R
-import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
-import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes.*
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.components.RecipeListItem
 import com.halilkrkn.finderecipe.feature.presentation.components.SearchBar
@@ -38,7 +36,7 @@ import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 fun RecipeListScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel : RecipeListViewModel = hiltViewModel()
+    viewModel : RecentRecipeListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val searchQuery = viewModel.searchQuery.value
@@ -78,8 +76,8 @@ fun RecipeListScreen(
 
             )
             Spacer(modifier = Modifier.height(16.dp))
-            if (recipeList != null) {
-                if (state.recipeList.isEmpty() && !state.isLoading) {
+
+                if (state.recipeList?.isEmpty() == true && !state.isLoading) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -100,12 +98,14 @@ fun RecipeListScreen(
                     }
                 }
 
+            if (recipeList != null) {
                 RecipeListItem(
                     recipeList = recipeList,
                     isLoading = isLoading,
                     navController = navController,
                 )
             }
+
             if (state.isLoading) {
                 Column(
                     modifier = Modifier

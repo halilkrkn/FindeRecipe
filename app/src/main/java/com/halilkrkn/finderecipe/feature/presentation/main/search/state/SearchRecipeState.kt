@@ -1,4 +1,4 @@
-package com.halilkrkn.finderecipe.feature.presentation.main.search
+package com.halilkrkn.finderecipe.feature.presentation.main.search.state
 
 import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 

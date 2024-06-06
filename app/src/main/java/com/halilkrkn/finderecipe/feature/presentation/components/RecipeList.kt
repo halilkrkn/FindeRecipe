@@ -35,7 +35,7 @@ import com.halilkrkn.finderecipe.ui.theme.PastelBlue
 @Composable
 fun RecipeList(
     modifier: Modifier = Modifier,
-    recipe: Recipe? = null,
+    recipe: Recipe,
     onItemClick: (Recipe) -> Unit
 ) {
     Card(
@@ -49,9 +49,7 @@ fun RecipeList(
         Column(
             modifier = Modifier
                 .clickable {
-                    if (recipe != null) {
-                        onItemClick(recipe)
-                    }
+                    onItemClick(recipe)
                 }
                 .background(
                     brush = Brush.sweepGradient(
@@ -67,7 +65,7 @@ fun RecipeList(
             verticalArrangement = Arrangement.Center
         ) {
             SubcomposeAsyncImage(
-                model = recipe?.image,
+                model = recipe.image,
                 loading = {
                     Box(
                         modifier = Modifier
@@ -89,24 +87,22 @@ fun RecipeList(
                         raw = R.raw.image_error
                     )
                 },
-                contentDescription = recipe?.title,
+                contentDescription = recipe.title,
                 modifier = Modifier
                     .weight(1f)
                     .size(312.dp, 231.dp)
             )
-            recipe?.title?.let {
-                Text(
-                    text = it,
-                    fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .height(75.dp)
 
-                )
-            }
+            Text(
+                text = recipe.title,
+                fontSize = MaterialTheme.typography.titleSmall.fontSize,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .height(75.dp)
+            )
         }
     }
 }

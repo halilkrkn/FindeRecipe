@@ -151,7 +151,8 @@ fun DetailRecipeScreen(
                     ) {
                         if (similarRecipe != null) {
                             SimilarMenuSheet(
-                                similarRecipeSourceUrl = similarRecipeSourceUrl
+                                similarRecipeSourceUrl = similarRecipeSourceUrl,
+                                isLoading = loading,
                             )
                         }
                     }

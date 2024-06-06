@@ -90,7 +90,7 @@ fun RecipeListScreen(
                             raw = R.raw.image_error
                         )
                         Text(
-                            text = if (searchQuery.isEmpty()) "Please make a call." else "No answer found for '$searchQuery'",
+                            text = if (searchQuery.isEmpty()) "Please make a call." ?: "No answer found for meal types" else "No answer found for '$searchQuery'" ,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentWidth(Alignment.CenterHorizontally)

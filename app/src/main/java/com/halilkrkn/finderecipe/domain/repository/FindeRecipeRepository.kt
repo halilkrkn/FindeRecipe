@@ -6,9 +6,9 @@ import com.halilkrkn.finderecipe.data.remote.dto.response.similar_recipe.Similar
 import retrofit2.Response
 
 interface FindeRecipeRepository {
-        suspend fun getRecipes(): AllRecipeResponse
-        suspend fun getMealTypeRecipes(mealType: String): AllRecipeResponse
-        suspend fun getSearchRecipe(query: String): AllRecipeResponse
+        suspend fun getRecipes(): Response<AllRecipeResponse>
+        suspend fun getMealTypeRecipes(mealType: String): Response<AllRecipeResponse>
+        suspend fun getSearchRecipe(query: String): Response<AllRecipeResponse>
         suspend fun getRecipeDetail(id: Int): Response<RecipeDetailResponse>
         suspend fun getSimilarRecipes(id: Int): Response<List<SimilarRecipeResponse>>
 }

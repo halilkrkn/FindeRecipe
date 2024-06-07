@@ -11,15 +11,15 @@ import javax.inject.Inject
 class FindeRecipeRepositoryImpl @Inject constructor(
     private val api: FindeRecipeApi
 ): FindeRecipeRepository {
-    override suspend fun getRecipes(): AllRecipeResponse {
+    override suspend fun getRecipes(): Response<AllRecipeResponse> {
         return api.getRecipes()
     }
 
-    override suspend fun getMealTypeRecipes(mealType: String): AllRecipeResponse {
+    override suspend fun getMealTypeRecipes(mealType: String): Response<AllRecipeResponse> {
         return api.getMealTypeRecipes(mealType = mealType)
     }
 
-    override suspend fun getSearchRecipe(query: String): AllRecipeResponse {
+    override suspend fun getSearchRecipe(query: String): Response<AllRecipeResponse> {
        return api.getSearchRecipes(query = query)
     }
 

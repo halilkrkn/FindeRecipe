@@ -11,16 +11,20 @@ import javax.inject.Inject
 class GetSearchRecipesUseCase@Inject constructor(
     private val repository: FindeRecipeRepository
 ) {
-    suspend fun getSearchRecipes(query: String) : Flow<Resource< List<Recipe>>> = flow {
-        try {
-            emit(Resource.Loading())
-            val response = repository.getSearchRecipe(query)
-            val recipes = response.recipeResponses.map { recipeResponse ->
-                recipeResponse.toRecipe()
-            }
+    suspend fun getSearchRecipes(query: String) : Flow<Resource<List<Recipe>?>> = flow {
+        emit(Resource.Loading())
+        val recipes = repository.getSearchRecipe(query = query).body()?.recipeResponses?.map { recipeResponse ->
+            recipeResponse.toRecipe()
+        }
+        val response = repository.getSearchRecipe(query = query)
+
+        if (response.isSuccessful) {
             emit(Resource.Success(recipes))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+        }
+
+        if (response.code() == 400 || response.code() == 401 || response.code() == 402 || response.code() == 403) {
+            val message = response.errorBody()?.string()
+            emit(Resource.Error(message ?: "Unable to send message. Please try again later."))
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.halilkrkn.finderecipe.data.mappers
 
+import com.halilkrkn.finderecipe.data.local.entity.RecipeEntity
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe.RecipeResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.AnalyzedInstructionResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.ExtendedIngredientResponse
@@ -26,6 +27,19 @@ fun RecipeResponse.toRecipe() = Recipe(
     title = title
 )
 
+fun RecipeResponse.toRecipeEntity() = RecipeEntity(
+    id = id,
+    image = image,
+    imageType = imageType,
+    title = title
+)
+
+fun RecipeEntity.toRecipeResponse() = Recipe(
+    id = id,
+    image = image,
+    imageType = imageType,
+    title = title
+)
 
 fun RecipeDetailResponse.toRecipeDetail() = RecipeDetail(
     id = id,

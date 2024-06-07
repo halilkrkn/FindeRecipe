@@ -1,5 +1,6 @@
 package com.halilkrkn.finderecipe.data.repository
 
+import com.halilkrkn.finderecipe.data.local.db.FindeRecipeDatabase
 import com.halilkrkn.finderecipe.data.remote.api.FindeRecipeApi
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe.AllRecipeResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.RecipeDetailResponse
@@ -9,7 +10,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class FindeRecipeRepositoryImpl @Inject constructor(
-    private val api: FindeRecipeApi
+    private val api: FindeRecipeApi,
+    private val db: FindeRecipeDatabase
 ): FindeRecipeRepository {
     override suspend fun getRecipes(): Response<AllRecipeResponse> {
         return api.getRecipes()

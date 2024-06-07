@@ -1,5 +1,6 @@
 package com.halilkrkn.finderecipe.di
 
+import com.halilkrkn.finderecipe.data.local.db.FindeRecipeDatabase
 import com.halilkrkn.finderecipe.data.remote.api.FindeRecipeApi
 import com.halilkrkn.finderecipe.data.repository.FindeRecipeRepositoryImpl
 import com.halilkrkn.finderecipe.domain.repository.FindeRecipeRepository
@@ -22,8 +23,9 @@ object AppModule {
     @Provides
     fun provideFindeRecipeRepository(
         api: FindeRecipeApi,
+        db: FindeRecipeDatabase,
     ): FindeRecipeRepository {
-        return FindeRecipeRepositoryImpl(api)
+        return FindeRecipeRepositoryImpl(api, db)
     }
 
     @Singleton

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.R
+import com.halilkrkn.finderecipe.feature.presentation.components.AppTopBar
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
 import com.halilkrkn.finderecipe.feature.presentation.components.RecipeListItem
 import com.halilkrkn.finderecipe.feature.presentation.components.SearchBar
@@ -46,22 +47,17 @@ fun RecipeListScreen(
     Scaffold(
         containerColor = FloralWhite,
         topBar = {
-            TopAppBar(
-                title = {
-                        Text(text = "Recent Recipes")
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
+                AppTopBar(
+                    title = "Recent Recipes",
+                    onClick = {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
                     }
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = FloralWhite
                 )
-            )
         }
     ) { innerPadding ->
         Column(

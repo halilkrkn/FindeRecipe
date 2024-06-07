@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halilkrkn.finderecipe.core.resource.Resource
+import com.halilkrkn.finderecipe.data.mappers.toRecipeEntity
+import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
 import com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe.state.RecentRecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -76,5 +78,18 @@ class RecentRecipeListViewModel @Inject constructor(
                 }.launchIn(viewModelScope)
         }
         _isLoading.value = false
+    }
+
+    fun onFavoriteRecipe(recipe: Recipe) {
+        insertFavoriteRecipe(recipe)
+        _state.value = RecentRecipeState(
+            isLoading = false,
+            recipe = recipe,
+            isFavorite = true
+        )
+    }
+private fun insertFavoriteRecipe(recipe: Recipe) =
+    viewModelScope.launch(Dispatchers.IO) {
+        recipeUseCases.getFindeRecipeFavoriteUseCase.insertFavoriteRecipe(recipe.toRecipeEntity())
     }
 }

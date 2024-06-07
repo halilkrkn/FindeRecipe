@@ -11,17 +11,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FindeRecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(favoriteRecipe: RecipeEntity)
+    suspend fun insertFavoriteRecipe(favoriteRecipe: RecipeEntity)
 
     @Delete
-    suspend fun delete(favoriteRecipe: RecipeEntity)
+    suspend fun deleteFavoriteRecipe(favoriteRecipe: RecipeEntity)
 
 //    @Query("SELECT * FROM movies_favorite WHERE userId = :userId")
 //    fun getAllFavorite(recipeId: String): Flow<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes")
-    fun getAllFavorite(): Flow<List<RecipeEntity>>
+    fun getAllFavoriteRecipes(): Flow<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes WHERE title LIKE :searchQuery || '%'")
-    fun searchFavorite(searchQuery: String): Flow<List<RecipeEntity>>
+    fun searchFavoriteRecipe(searchQuery: String): Flow<List<RecipeEntity>>
 }

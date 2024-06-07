@@ -25,6 +25,7 @@ fun RecipeListItem(
     recipeList: List<Recipe>,
     isLoading: Boolean = false,
     navController: NavController,
+    onFavoriteClick: (Recipe) -> Unit = {}
 ) {
     if (isLoading) {
         Box(
@@ -52,7 +53,8 @@ fun RecipeListItem(
                 recipe = recipe,
                 onItemClick = { recipeItem ->
                     navController.navigate(DetailsRoutes.Detail.route.plus("/${recipeItem.id}"))
-                }
+                },
+                onFavoriteClick = onFavoriteClick
             )
         }
     }

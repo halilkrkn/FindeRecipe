@@ -99,6 +99,9 @@ fun RecipeListScreen(
                     recipeList = recipeList,
                     isLoading = isLoading,
                     navController = navController,
+                    onFavoriteClick = { recipe ->
+                        viewModel.onFavoriteRecipe(recipe)
+                    }
                 )
             }
 

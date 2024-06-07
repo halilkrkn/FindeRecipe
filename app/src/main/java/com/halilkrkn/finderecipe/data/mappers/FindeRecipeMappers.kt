@@ -27,7 +27,7 @@ fun RecipeResponse.toRecipe() = Recipe(
     title = title
 )
 
-fun RecipeResponse.toRecipeEntity() = RecipeEntity(
+fun Recipe.toRecipeEntity() = RecipeEntity(
     id = id,
     image = image,
     imageType = imageType,

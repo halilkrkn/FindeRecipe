@@ -17,7 +17,7 @@ interface FindeRecipeApi {
         number: Int = 30,
         @Query("apiKey")
         apiKey: String = API_KEY,
-    ): AllRecipeResponse
+    ): Response<AllRecipeResponse>
 
     @GET("recipes/complexSearch")
     suspend fun getMealTypeRecipes(
@@ -27,7 +27,7 @@ interface FindeRecipeApi {
         number: Int = 30,
         @Query("apiKey")
         apiKey: String = API_KEY,
-    ): AllRecipeResponse
+    ): Response<AllRecipeResponse>
 
     @GET("recipes/complexSearch")
     suspend fun getSearchRecipes(
@@ -37,7 +37,7 @@ interface FindeRecipeApi {
         number: Int = 30,
         @Query("apiKey")
         apiKey: String = API_KEY,
-    ): AllRecipeResponse
+    ): Response<AllRecipeResponse>
 
     @GET("recipes/{id}/information")
     suspend fun getRecipeDetail(

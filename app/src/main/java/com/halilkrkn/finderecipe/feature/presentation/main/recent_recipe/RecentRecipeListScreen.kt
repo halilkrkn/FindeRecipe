@@ -73,7 +73,7 @@ fun RecipeListScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-                if (state.recipeList?.isEmpty() == true && !state.isLoading) {
+                if (recipeList.isEmpty() && !state.isLoading) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -94,16 +94,14 @@ fun RecipeListScreen(
                     }
                 }
 
-            if (recipeList != null) {
-                RecipeListItem(
-                    recipeList = recipeList,
-                    isLoading = isLoading,
-                    navController = navController,
-                    onFavoriteClick = { recipe ->
-                        viewModel.onFavoriteRecipe(recipe)
-                    }
-                )
-            }
+            RecipeListItem(
+                recipeList = recipeList,
+                isLoading = isLoading,
+                navController = navController,
+                onFavoriteClick = { recipe ->
+                    viewModel.onFavoriteRecipe(recipe)
+                },
+            )
 
             if (state.isLoading) {
                 Column(

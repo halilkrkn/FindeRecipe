@@ -27,7 +27,6 @@ fun FavoriteRecipeListItemScreen(
     ) {
         LazyColumn(
             modifier = Modifier
-                .padding(top = 64.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -40,12 +39,12 @@ fun FavoriteRecipeListItemScreen(
             ) { recipe ->
                 FavoriteRecipeListItem(
                     recipe = recipe,
-                    onItemClick = { recipe ->
+                    onItemClick = { recipeNavigate ->
                         navController.navigate(
-                            DetailsRoutes.Detail.route.plus("/${recipe.id}")
+                            DetailsRoutes.Detail.route.plus("/${recipeNavigate.id}")
                         )
                     },
-                    deleteClick = {
+                    deleteClick = { recipeDelete ->
                         deleteClick(recipe)
                     }
                 )

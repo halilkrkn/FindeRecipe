@@ -16,6 +16,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -26,7 +27,6 @@ import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.feature.presentation.components.AppTopBar
 import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
-import com.halilkrkn.finderecipe.feature.presentation.components.RecipeListItem
 import com.halilkrkn.finderecipe.feature.presentation.components.SearchBar
 import com.halilkrkn.finderecipe.feature.presentation.main.favorite.component.FavoriteRecipeListItemScreen
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
@@ -47,12 +47,19 @@ fun FavoriteRecipesScreen(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    LaunchedEffect(key1 = Unit) {
+        viewModel.onRefresh()
+    }
+
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         containerColor = FloralWhite,
         topBar = {
             AppTopBar(
-                title = "Favorite Recipes"
+                title = "Favorite Recipes",
+                onRefresh = {
+                    viewModel.onRefresh()
+                }
             )
         }
     ) { innerPadding ->
@@ -69,7 +76,7 @@ fun FavoriteRecipesScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (state.recipeList.isEmpty() && !state.isLoading) {
+            if (recipeList.isEmpty() && !state.isLoading) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -79,7 +86,7 @@ fun FavoriteRecipesScreen(
                     LoadingProgressBar(
                         modifier = Modifier
                             .size(width = 200.dp, height = 200.dp),
-                        raw = R.raw.empty_search
+                        raw = R.raw.empty_page
                     )
                     Text(
                         text = if (searchQuery.isEmpty()) "No Favorites Recipes" else "No Favorites Recipe with '$searchQuery'" ,

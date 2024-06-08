@@ -19,7 +19,7 @@ interface FindeRecipeDao {
 //    @Query("SELECT * FROM movies_favorite WHERE userId = :userId")
 //    fun getAllFavorite(recipeId: String): Flow<List<RecipeEntity>>
 
-    @Query("SELECT * FROM recipes")
+    @Query("SELECT * FROM recipes ORDER BY id ASC")
     fun getAllFavoriteRecipes(): Flow<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes WHERE title LIKE :searchQuery || '%'")

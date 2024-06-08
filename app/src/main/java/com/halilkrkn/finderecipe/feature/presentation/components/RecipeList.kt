@@ -14,8 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -24,12 +22,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -44,10 +44,10 @@ import com.halilkrkn.finderecipe.ui.theme.PastelBlue
 fun RecipeList(
     modifier: Modifier = Modifier,
     recipe: Recipe,
-    onItemClick: (Recipe) -> Unit = {},
-    onFavoriteClick: (Recipe) -> Unit = {}
+    onItemClick: (Recipe) -> Unit,
+    onFavoriteClick: (Recipe) -> Unit,
 ) {
-    val imageChangeColor  = rememberSaveable {
+    val isFavoriteRecipe  = remember {
         mutableStateOf(false)
     }
     Card(
@@ -132,7 +132,7 @@ fun RecipeList(
 
                 IconButton(
                     onClick = {
-                        imageChangeColor.value = !imageChangeColor.value
+                        isFavoriteRecipe.value = !isFavoriteRecipe.value
                         onFavoriteClick(recipe)
                     },
                     modifier = Modifier
@@ -141,24 +141,13 @@ fun RecipeList(
 
                 ) {
                     Icon(
-                        imageVector = if (imageChangeColor.value)  Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
+                        imageVector = if (isFavoriteRecipe.value)  Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = "Favorite",
-                        tint = if (imageChangeColor.value) PastelBlue else Color.Red
+                        tint = if (isFavoriteRecipe.value) Red else Color.Red
                     )
                 }
 
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun RecipeListPreview() {
-    RecipeList(recipe = Recipe(
-        id = 1,
-        title = "Recipe Title",
-        image = "https://img.spoonacular.com/recipes/716429-312x231.jpg",
-        imageType = "jpg",
-    ))
 }

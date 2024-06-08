@@ -33,7 +33,7 @@ class FavoriteRecipesViewModel @Inject constructor(
     private val _searchQuery = mutableStateOf<String>("")
     val searchQuery: State<String> = _searchQuery
 
-    private var movieJob: Job? = null
+    private var job: Job? = null
 
     init {
         getFavoriteFindeRecipes()
@@ -45,8 +45,8 @@ class FavoriteRecipesViewModel @Inject constructor(
 
     private fun getFavoriteFindeRecipes() {
         _isLoading.value = true
-        movieJob?.cancel()
-        movieJob = viewModelScope.launch(Dispatchers.IO) {
+        job?.cancel()
+        job = viewModelScope.launch(Dispatchers.IO) {
             recipeUseCases.getFindeRecipeFavoriteUseCase.getAllFavoriteRecipes().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
@@ -85,7 +85,7 @@ class FavoriteRecipesViewModel @Inject constructor(
 
     private fun deleteFavoriteRecipe(recipe: Recipe) {
         viewModelScope.launch(Dispatchers.IO) {
-            recipeUseCases.getFindeRecipeFavoriteUseCase.insertFavoriteRecipe(recipe.toRecipeEntity())
+            recipeUseCases.getFindeRecipeFavoriteUseCase.deleteFavoriteRecipe(recipe.toRecipeEntity())
         }
     }
 
@@ -95,7 +95,7 @@ class FavoriteRecipesViewModel @Inject constructor(
 
     private fun insertFavoriteRecipe(recipe: Recipe) {
         viewModelScope.launch(Dispatchers.IO) {
-            recipeUseCases.getFindeRecipeFavoriteUseCase.deleteFavoriteRecipe(recipe.toRecipeEntity())
+            recipeUseCases.getFindeRecipeFavoriteUseCase.insertFavoriteRecipe(recipe.toRecipeEntity())
         }
     }
 

@@ -8,7 +8,9 @@ import com.halilkrkn.finderecipe.core.resource.Resource
 import com.halilkrkn.finderecipe.data.mappers.toRecipeEntity
 import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
+import com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe.state.RecentFavoriteRecipeState
 import com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe.state.RecentRecipeState
+import com.halilkrkn.finderecipe.feature.presentation.main.search.state.SearchFavoriteRecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,6 +44,7 @@ class RecentRecipeListViewModel @Inject constructor(
     fun onSearch(query: String) {
         getSearchRecipe(query)
     }
+
     private fun getSearchRecipe(query: String) {
         _isLoading.value = true
         _searchQuery.value = query
@@ -56,7 +59,7 @@ class RecentRecipeListViewModel @Inject constructor(
                             val recipeList = result.data
                             _state.value = RecentRecipeState(
                                 isLoading = false,
-                                recipeList = recipeList,
+                                recipeList = recipeList ?: emptyList(),
                                 error = ""
                             )
                         }
@@ -80,16 +83,18 @@ class RecentRecipeListViewModel @Inject constructor(
         _isLoading.value = false
     }
 
+    private val _stateFavorite = mutableStateOf(RecentFavoriteRecipeState())
+    val stateFavorite: State<RecentFavoriteRecipeState> = _stateFavorite
     fun onFavoriteRecipe(recipe: Recipe) {
         insertFavoriteRecipe(recipe)
-        _state.value = RecentRecipeState(
+        _stateFavorite.value = RecentFavoriteRecipeState(
             isLoading = false,
             recipe = recipe,
-            isFavorite = true
         )
     }
-private fun insertFavoriteRecipe(recipe: Recipe) =
-    viewModelScope.launch(Dispatchers.IO) {
-        recipeUseCases.getFindeRecipeFavoriteUseCase.insertFavoriteRecipe(recipe.toRecipeEntity())
-    }
+
+    private fun insertFavoriteRecipe(recipe: Recipe) =
+        viewModelScope.launch(Dispatchers.IO) {
+            recipeUseCases.getFindeRecipeFavoriteUseCase.insertFavoriteRecipe(recipe.toRecipeEntity())
+        }
 }

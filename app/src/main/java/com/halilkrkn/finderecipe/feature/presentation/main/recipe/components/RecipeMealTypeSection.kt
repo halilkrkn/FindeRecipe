@@ -25,7 +25,8 @@ fun RecipeMealTypeSection(
     mealTypes: List<Recipe>,
     navController: NavController,
     isLoading: Boolean,
-    error: String ?= null
+    error: String ?= null,
+    onFavoriteClick: (Recipe) -> Unit,
 ) {
     if (isLoading) {
         Box(
@@ -70,6 +71,9 @@ fun RecipeMealTypeSection(
         RecipeMealTypeItemScreen(
             mealTypes = mealTypes,
             navController = navController,
+            onFavoriteClick = { recipe ->
+                onFavoriteClick(recipe)
+            },
         )
     }
 }

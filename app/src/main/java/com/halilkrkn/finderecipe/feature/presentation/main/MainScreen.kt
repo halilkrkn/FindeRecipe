@@ -21,7 +21,7 @@ import com.halilkrkn.finderecipe.feature.navigation.routes.BottomBarRoutes
 import com.halilkrkn.finderecipe.ui.theme.DarkCrulean
 import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
-import com.halilkrkn.finderecipe.ui.theme.FloralWhite2
+import com.halilkrkn.finderecipe.ui.theme.FloralWhiteCream
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -38,9 +38,9 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
+        BottomBarRoutes.Favorites,
         BottomBarRoutes.Recipes,
         BottomBarRoutes.Search,
-        BottomBarRoutes.Favorites,
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
@@ -91,7 +91,7 @@ fun RowScope.AddItem(
         colors = NavigationBarItemDefaults.colors(
             selectedIconColor = DarkMidnightBlue,
             unselectedIconColor = DarkCrulean,
-            indicatorColor = FloralWhite2
+            indicatorColor = FloralWhiteCream
         ),
     )
 }

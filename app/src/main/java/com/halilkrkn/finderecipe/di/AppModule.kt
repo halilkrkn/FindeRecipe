@@ -1,10 +1,12 @@
 package com.halilkrkn.finderecipe.di
 
+import com.halilkrkn.finderecipe.data.local.db.FindeRecipeDatabase
 import com.halilkrkn.finderecipe.data.remote.api.FindeRecipeApi
 import com.halilkrkn.finderecipe.data.repository.FindeRecipeRepositoryImpl
 import com.halilkrkn.finderecipe.domain.repository.FindeRecipeRepository
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
 import com.halilkrkn.finderecipe.domain.usecase.GetAllRecipesUseCase
+import com.halilkrkn.finderecipe.domain.usecase.GetFindeRecipeFavoriteUseCase
 import com.halilkrkn.finderecipe.domain.usecase.GetMealTypeRecipesUseCase
 import com.halilkrkn.finderecipe.domain.usecase.GetRecipeDetailUseCase
 import com.halilkrkn.finderecipe.domain.usecase.GetSearchRecipesUseCase
@@ -22,8 +24,9 @@ object AppModule {
     @Provides
     fun provideFindeRecipeRepository(
         api: FindeRecipeApi,
+        db: FindeRecipeDatabase,
     ): FindeRecipeRepository {
-        return FindeRecipeRepositoryImpl(api)
+        return FindeRecipeRepositoryImpl(api, db)
     }
 
     @Singleton
@@ -34,7 +37,8 @@ object AppModule {
             getMealTypeRecipesUseCase = GetMealTypeRecipesUseCase(repository),
             getSearchRecipesUseCase = GetSearchRecipesUseCase(repository),
             getRecipeDetailUseCase = GetRecipeDetailUseCase(repository),
-            getSimilarRecipesUseCase = GetSimilarRecipesUseCase(repository)
+            getSimilarRecipesUseCase = GetSimilarRecipesUseCase(repository),
+            getFindeRecipeFavoriteUseCase = GetFindeRecipeFavoriteUseCase(repository)
         )
     }
 }

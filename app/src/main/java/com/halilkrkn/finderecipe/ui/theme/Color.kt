@@ -12,7 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val LightYellow = Color(0xFFFDE5BF)
 val FloralWhite = Color(0xFFFFFBF4)
-val FloralWhite2 = Color(0xFFFFD180)
+val FloralWhiteCream = Color(0xFFFFD180)
 val Coral = Color(0xFFF6854F)
 val Razzmatazz = Color(0xFFD50000)
 val ChinesePurple = Color(0xFF720C99)

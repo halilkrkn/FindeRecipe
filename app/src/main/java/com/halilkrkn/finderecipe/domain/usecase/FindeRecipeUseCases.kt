@@ -5,5 +5,6 @@ data class FindeRecipeUseCases(
     val getMealTypeRecipesUseCase: GetMealTypeRecipesUseCase,
     val getSearchRecipesUseCase: GetSearchRecipesUseCase,
     val getRecipeDetailUseCase: GetRecipeDetailUseCase,
-    val getSimilarRecipesUseCase: GetSimilarRecipesUseCase
+    val getSimilarRecipesUseCase: GetSimilarRecipesUseCase,
+    val getFindeRecipeFavoriteUseCase: GetFindeRecipeFavoriteUseCase,
 )

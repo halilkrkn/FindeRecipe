@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halilkrkn.finderecipe.core.resource.Resource
+import com.halilkrkn.finderecipe.data.mappers.toRecipeEntity
+import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.state.MealTypeState
+import com.halilkrkn.finderecipe.feature.presentation.main.recipe.state.RecipeFavoriteState
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.state.RecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +49,7 @@ class RecipeViewModel @Inject constructor(
                         val recipeList = result.data
                         _state.value = RecipeState(
                             isLoading = false,
-                            recipeList = recipeList,
+                            recipeList = recipeList ?: emptyList(),
                             error = ""
                         )
                     }
@@ -89,7 +92,7 @@ class RecipeViewModel @Inject constructor(
                             val mealTypeList = result.data
                             _stateMealType.value = MealTypeState(
                                 isLoading = false,
-                                mealTypesList = mealTypeList,
+                                mealTypesList = mealTypeList ?: emptyList(),
                                 error = ""
                             )
                         }
@@ -112,4 +115,19 @@ class RecipeViewModel @Inject constructor(
         }
         _isLoading.value = false
     }
+
+    private val _stateFavorite = mutableStateOf(RecipeFavoriteState())
+    val stateFavorite: State<RecipeFavoriteState> = _stateFavorite
+    fun onFavoriteInsertRecipe(recipe: Recipe) {
+        insertFavoriteRecipe(recipe)
+        _stateFavorite.value = RecipeFavoriteState(
+            isLoading = false,
+            recipe = recipe,
+        )
+    }
+
+    private fun insertFavoriteRecipe(recipe: Recipe) =
+        viewModelScope.launch(Dispatchers.IO) {
+            recipeUseCases.getFindeRecipeFavoriteUseCase.insertFavoriteRecipe(recipe.toRecipeEntity())
+        }
 }

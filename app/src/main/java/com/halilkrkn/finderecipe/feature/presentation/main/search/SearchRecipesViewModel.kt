@@ -5,7 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halilkrkn.finderecipe.core.resource.Resource
+import com.halilkrkn.finderecipe.data.mappers.toRecipeEntity
+import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
+import com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe.state.RecentRecipeState
+import com.halilkrkn.finderecipe.feature.presentation.main.search.state.SearchFavoriteRecipeState
 import com.halilkrkn.finderecipe.feature.presentation.main.search.state.SearchRecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -72,4 +76,18 @@ class SearchRecipesViewModel  @Inject constructor(
         }
         _isLoading.value = false
     }
+
+    private val _stateFavorite = mutableStateOf(SearchFavoriteRecipeState())
+    val stateFavorite: State<SearchFavoriteRecipeState> = _stateFavorite
+    fun onFavoriteRecipe(recipe: Recipe) {
+        insertFavoriteRecipe(recipe)
+        _stateFavorite.value = SearchFavoriteRecipeState(
+            isLoading = false,
+            recipe = recipe,
+        )
+    }
+    private fun insertFavoriteRecipe(recipe: Recipe) =
+        viewModelScope.launch(Dispatchers.IO) {
+            recipeUseCases.getFindeRecipeFavoriteUseCase.insertFavoriteRecipe(recipe.toRecipeEntity())
+        }
 }

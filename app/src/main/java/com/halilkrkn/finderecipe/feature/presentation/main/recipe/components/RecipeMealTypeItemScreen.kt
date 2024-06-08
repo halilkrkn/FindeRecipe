@@ -26,6 +26,7 @@ import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 fun RecipeMealTypeItemScreen(
     mealTypes: List<Recipe>,
     navController: NavController,
+    onFavoriteClick: (Recipe) -> Unit,
 ) {
     val pullRefreshState = rememberPullToRefreshState()
 
@@ -46,14 +47,17 @@ fun RecipeMealTypeItemScreen(
 
             items(mealTypes) { mealType ->
                 RecipeMealTypeItem(
-                    theMeal = mealType,
+                    recipe = mealType,
                     modifier = Modifier.fillMaxWidth(),
                     onItemClick = {
                         navController.navigate(
                             DetailsRoutes.Detail.route + "/${mealType.id}"
                         )
                     },
-
+                    onFavoriteClick = { favoriteRecipe ->
+                        onFavoriteClick(favoriteRecipe)
+                    },
+//                    isFavorite = isFavorite
                 )
             }
         }

@@ -52,7 +52,7 @@ class SearchRecipesViewModel  @Inject constructor(
                             val recipeList = result.data
                             _state.value = SearchRecipeState(
                                 isLoading = false,
-                                recipeList = recipeList,
+                                recipeList = recipeList ?: emptyList(),
                                 error = ""
                             )
                         }

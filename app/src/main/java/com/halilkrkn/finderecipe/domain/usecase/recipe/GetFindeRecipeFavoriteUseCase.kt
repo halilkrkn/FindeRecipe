@@ -17,9 +17,9 @@ class GetFindeRecipeFavoriteUseCase  @Inject constructor(
     suspend fun insertFavoriteRecipe(recipe: RecipeEntity) = repository.insertFavoriteRecipe(recipe)
     suspend fun deleteFavoriteRecipe(recipe: RecipeEntity) = repository.deleteFavoriteRecipe(recipe)
 
-    fun getAllFavoriteRecipes() : Flow<Resource<List<Recipe>>> = flow {
+    fun getAllFavoriteRecipes(userId:String) : Flow<Resource<List<Recipe>>> = flow {
         emit(Resource.Loading())
-        val response = repository.getAllFavoriteRecipes().first().map {recipeEntity ->
+        val response = repository.getAllFavoriteRecipes(userId = userId).first().map {recipeEntity ->
             recipeEntity.toRecipeResponse()
         }
         emit(Resource.Success(response))

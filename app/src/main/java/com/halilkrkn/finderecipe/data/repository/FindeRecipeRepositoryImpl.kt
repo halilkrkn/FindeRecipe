@@ -46,8 +46,8 @@ class FindeRecipeRepositoryImpl @Inject constructor(
         db.recipeDao().deleteFavoriteRecipe(recipe)
     }
 
-    override fun getAllFavoriteRecipes(): Flow<List<RecipeEntity>> {
-        return db.recipeDao().getAllFavoriteRecipes()
+    override fun getAllFavoriteRecipes(userId:String): Flow<List<RecipeEntity>> {
+        return db.recipeDao().getAllFavoriteRecipes(userId)
     }
 
     override fun searchFavoriteRecipe(searchQuery: String): Flow<List<RecipeEntity>> {

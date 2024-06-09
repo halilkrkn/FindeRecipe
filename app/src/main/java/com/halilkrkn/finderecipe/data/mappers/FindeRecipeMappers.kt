@@ -1,5 +1,6 @@
 package com.halilkrkn.finderecipe.data.mappers
 
+import com.google.firebase.auth.FirebaseAuth
 import com.halilkrkn.finderecipe.data.local.entity.RecipeEntity
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe.RecipeResponse
 import com.halilkrkn.finderecipe.data.remote.dto.response.recipe_detail.AnalyzedInstructionResponse
@@ -29,6 +30,7 @@ fun RecipeResponse.toRecipe() = Recipe(
 
 fun Recipe.toRecipeEntity() = RecipeEntity(
     id = id,
+    userId = FirebaseAuth.getInstance().currentUser?.uid.toString(),
     image = image,
     imageType = imageType,
     title = title

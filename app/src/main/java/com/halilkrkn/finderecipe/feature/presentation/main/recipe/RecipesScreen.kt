@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,6 +61,10 @@ fun RecipesScreen(
         MealTypes.Snack,
         MealTypes.SideDish
     )
+
+    LaunchedEffect(key1 = true) {
+        viewModel.getAllRecentRecipes()
+    }
     Scaffold(
         containerColor = FloralWhite,
         topBar = {
@@ -85,13 +90,11 @@ fun RecipesScreen(
                     navController.navigate(DetailsRoutes.RecipeList.route)
                 }
             )
-            if (recipeList != null) {
-                RecentRecipesListSection(
-                    recipeList = recipeList,
-                    isLoading = isLoading,
-                    navController = navController
-                )
-            }
+            RecentRecipesListSection(
+                recipeList = recipeList,
+                isLoading = isLoading,
+                navController = navController
+            )
             Spacer(modifier = Modifier.height(12.dp))
             CategoryInfoSection(
                 title = "Meal Types",

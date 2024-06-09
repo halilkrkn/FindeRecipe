@@ -62,7 +62,11 @@ fun RecipesScreen(
     )
     Scaffold(
         containerColor = FloralWhite,
-        topBar = { TopBar() }
+        topBar = {
+            TopBar(
+                navController = navController
+            )
+        }
     ) { innerPadding ->
 
         val verticalScrollState = rememberScrollState()

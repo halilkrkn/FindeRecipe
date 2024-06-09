@@ -61,6 +61,7 @@ import com.halilkrkn.finderecipe.feature.presentation.auth.components.GoogleButt
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.GradientButton
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.PasswordTextField
 import com.halilkrkn.finderecipe.ui.theme.Coral
+import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import com.halilkrkn.finderecipe.ui.theme.Razzmatazz
 import kotlinx.coroutines.launch
@@ -83,34 +84,35 @@ fun SignInScreen(
     val firebaseAuth: FirebaseAuth = Firebase.auth
 
 
-    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { activityResult ->
-        val account = GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
-        try {
-            val result = account.getResult(ApiException::class.java)
-            val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
-            scope.launch {
-                viewModel.signInWithGoogle(credentials)
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            val account = GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
+            try {
+                val result = account.getResult(ApiException::class.java)
+                val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
+                scope.launch {
+                    viewModel.signInWithGoogle(credentials)
+                }
+            } catch (apiException: ApiException) {
+                print(apiException)
             }
-        } catch (apiException: ApiException) {
-            print(apiException)
         }
-    }
 
-    LaunchedEffect(key1 = googleSignInState.success, key2 = state.isSuccess, key3 = state.isError ) {
+    LaunchedEffect(key1 = googleSignInState.success, key2 = state.isSuccess, key3 = state.isError) {
         scope.launch {
             if (firebaseAuth.currentUser != null || googleSignInState.success != null) {
-                Toast.makeText(context, "Sign In Success", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Sign In Success", Toast.LENGTH_SHORT).show()
                 navController.popBackStack()
                 navController.navigate(MAIN)
                 viewModel.resetSignInState()
             } else if (state.isError.isNotEmpty()) {
                 val error = state.isError.ifEmpty { googleSignInState.error }
-                Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    LaunchedEffect (key1 = googleSignInState.error) {
+    LaunchedEffect(key1 = googleSignInState.error) {
         if (googleSignInState.error.isNotEmpty()) {
             Toast.makeText(context, googleSignInState.error, Toast.LENGTH_SHORT).show()
         }
@@ -193,21 +195,16 @@ fun SignInScreen(
                     onValueChange = { password = it }
                 )
 
-                val gradientColor = listOf(Color(0xFF484BF1), Color(0xFF673AB7))
-                val cornerRadius = 16.dp
                 Spacer(modifier = Modifier.height(16.dp))
                 GradientButton(
-                    gradientColors = gradientColor,
-                    cornerRadius = cornerRadius,
                     nameButton = "Login",
                     roundedCornerShape = RoundedCornerShape(topStart = 30.dp, bottomEnd = 30.dp),
                     onClick = {
                         keyboard?.hide()
-
                         if (email.isEmpty() || password.isEmpty()) {
-                            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT)
+                                .show()
                         } else {
-                            // LoginViewModel ile giriş işlemini başlat
                             scope.launch {
                                 navController.popBackStack()
                                 viewModel.signInWithEmailAndPassword(email, password)
@@ -220,7 +217,6 @@ fun SignInScreen(
 
                 if (googleSignInState.error.isNotEmpty() || state.isError.isNotEmpty()) {
                     Text(text = errorMessage, color = Color.Red)
-//                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                 }
 
                 Spacer(modifier = Modifier.padding(10.dp))
@@ -232,15 +228,11 @@ fun SignInScreen(
                 ) {
                     TextButton(onClick = {
                         navController.navigate(AuthRoutes.SignUp.route)
-                        {
-                            popUpTo(navController.graph.startDestinationId)
-                            launchSingleTop = true
-                        }
                     }) {
                         Text(
                             text = "Create An Account",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
                             textAlign = TextAlign.Center,
                             letterSpacing = 1.sp,
                             style = MaterialTheme.typography.labelLarge
@@ -253,8 +245,8 @@ fun SignInScreen(
                     }) {
                         Text(
                             text = "Forgot Password",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
                             textAlign = TextAlign.Center,
                             letterSpacing = 1.sp,
                             style = MaterialTheme.typography.labelLarge,
@@ -262,7 +254,7 @@ fun SignInScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = "or connect with", fontWeight = FontWeight.Medium, color = Color.Gray)
+                Text(text = "or connect with", fontWeight = FontWeight.SemiBold, color = Color.Gray)
                 Spacer(modifier = Modifier.padding(16.dp))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -277,8 +269,8 @@ fun SignInScreen(
                         loadingText = "Signing Up...",
                         iconContentDescription = "Google Icon",
                         buttonColors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            contentColor = Color.White
+                            containerColor = Color.Transparent,
+                            contentColor = Color.Transparent
                         ),
                         clickProgressBarColor = Razzmatazz,
                         icon = painterResource(id = R.drawable.ic_google),

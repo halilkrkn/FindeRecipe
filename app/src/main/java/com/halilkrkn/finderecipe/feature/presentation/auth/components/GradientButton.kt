@@ -23,17 +23,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
+import com.halilkrkn.finderecipe.ui.theme.FloralWhite
+import com.halilkrkn.finderecipe.ui.theme.Razzmatazz
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun GradientButton(
-    gradientColors: List<Color>,
-    cornerRadius: Dp,
     onClick: () -> Unit = {},
     nameButton: String,
     roundedCornerShape: RoundedCornerShape,
     state: Boolean
 ) {
+
+    val gradientColor = listOf(Razzmatazz, DarkMidnightBlue )
+    val cornerRadius = 16.dp
 
     Button(
         modifier = Modifier
@@ -53,17 +57,13 @@ fun GradientButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = Brush.horizontalGradient(colors = gradientColors),
+                    brush = Brush.horizontalGradient(colors = gradientColor),
                     shape = roundedCornerShape
                 )
                 .clickable {
                     onClick()
                 }
                 .clip(roundedCornerShape)
-                /*.background(
-                    brush = Brush.linearGradient(colors = gradientColors),
-                    shape = RoundedCornerShape(cornerRadius)
-                )*/
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
@@ -76,9 +76,11 @@ fun GradientButton(
 
             if (state) {
                 CircularProgressIndicator(
-                    color = Color.White,
+                    color = FloralWhite,
                     strokeWidth = 2.dp,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier
+                        .size(24.dp)
+                        .align(Alignment.CenterEnd)
                 )
             } else {
                 Text(

@@ -1,5 +1,6 @@
 package com.halilkrkn.finderecipe.feature.presentation.main.recipe.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,10 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,12 +30,25 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.halilkrkn.finderecipe.R
+import com.halilkrkn.finderecipe.feature.navigation.util.Graphs.AUTHENTICATION
 import com.halilkrkn.finderecipe.ui.theme.OxfordBlue
 
 @Composable
-fun TopBar(modifier: Modifier = Modifier) {
+fun TopBar(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+) {
+
+    var isProfilePopupVisible by remember { mutableStateOf(false) }
+    val firebaseAuth: FirebaseAuth = Firebase.auth
+    val firebaseUser = firebaseAuth.currentUser
+
     Row(
         modifier = Modifier
             .padding(vertical = 16.dp, horizontal = 12.dp)
@@ -40,22 +58,50 @@ fun TopBar(modifier: Modifier = Modifier) {
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
-
         ) {
-            AsyncImage(
-                modifier = Modifier
-                    .height(60.dp)
-                    .width(60.dp)
-                    .clip(RoundedCornerShape(12.dp)),
-                model = "https://avatars.githubusercontent.com/u/42476890?v=4",
-                contentDescription = "profile_image",
-                placeholder = painterResource(id = R.drawable.baseline_person_24),
-            )
+            if (firebaseUser?.photoUrl != null) {
+                AsyncImage(
+                    modifier = Modifier
+                        .clickable {
+                            isProfilePopupVisible = !isProfilePopupVisible
+                        }
+                        .height(60.dp)
+                        .width(60.dp)
+                        .clip(RoundedCornerShape(12.dp)),
+                    model = firebaseUser.photoUrl,
+                    contentDescription = "profile_image",
+                    placeholder = painterResource(id = R.drawable.baseline_person_24)
+                )
+            } else {
+                Icon(
+                    modifier = Modifier
+                        .clickable {
+                            isProfilePopupVisible = !isProfilePopupVisible
+                        }
+                        .size(60.dp),
+                    painter = painterResource(id = R.drawable.baseline_person_24),
+                    contentDescription = "Profile Picture",
+                    tint = Color.Gray
+                )
+            }
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = "Hi, Halil 👋",
-                fontSize = 24.sp,
+                text = "Hi, ${if (firebaseUser?.displayName.isNullOrEmpty()) firebaseUser?.email?.substringBefore("@") else firebaseUser?.displayName} 👋",
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Light,
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (isProfilePopupVisible) {
+            SignOutPopup(
+                firebaseUser = firebaseUser,
+                onSignOut = {
+                    navController.popBackStack()
+                    firebaseAuth.signOut()
+                    navController.navigate(AUTHENTICATION)
+                }
             )
         }
 

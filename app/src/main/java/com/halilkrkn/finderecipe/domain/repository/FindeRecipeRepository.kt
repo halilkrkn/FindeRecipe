@@ -19,6 +19,6 @@ interface FindeRecipeRepository {
         // Database Operations
         suspend fun insertFavoriteRecipe(recipe: RecipeEntity)
         suspend fun deleteFavoriteRecipe(recipe: RecipeEntity)
-        fun getAllFavoriteRecipes(): Flow<List<RecipeEntity>>
+        fun getAllFavoriteRecipes(userId:String): Flow<List<RecipeEntity>>
         fun searchFavoriteRecipe(searchQuery: String): Flow<List<RecipeEntity>>
 }

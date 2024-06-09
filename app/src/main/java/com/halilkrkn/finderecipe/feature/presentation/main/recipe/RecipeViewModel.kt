@@ -38,6 +38,10 @@ class RecipeViewModel @Inject constructor(
         getMealTypeRecipe("breakfast")
     }
 
+    fun getAllRecentRecipes() {
+        getAllRecipes()
+    }
+
     private fun getAllRecipes() {
         _isLoading.value = true
         job?.cancel()

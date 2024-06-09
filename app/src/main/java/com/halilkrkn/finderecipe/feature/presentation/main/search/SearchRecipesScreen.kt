@@ -70,35 +70,33 @@ fun SearchRecipesScreen(
 
             )
             Spacer(modifier = Modifier.height(16.dp))
-            if (recipeList != null) {
-                if (state.recipeList.isEmpty() && !state.isLoading) {
-                    Column(
+            if (state.recipeList.isEmpty() && !state.isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    LoadingProgressBar(
                         modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        LoadingProgressBar(
-                            modifier = Modifier
-                                .size(width = 200.dp, height = 200.dp),
-                            raw = R.raw.empty_search
-                        )
-                        Text(
-                            text = if (searchQuery.isEmpty()) "Please make a call." else "No answer found for '$searchQuery'",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentWidth(Alignment.CenterHorizontally)
-                        )
-                    }
+                            .size(width = 200.dp, height = 200.dp),
+                        raw = R.raw.empty_search
+                    )
+                    Text(
+                        text = if (searchQuery.isEmpty()) "Please make a call." else "No answer found for '$searchQuery'",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentWidth(Alignment.CenterHorizontally)
+                    )
                 }
-                RecipeListItem(
-                    recipeList = recipeList,
-                    isLoading = isLoading,
-                    navController = navController,
-                    onFavoriteClick = { recipe ->
-                        viewModel.onFavoriteRecipe(recipe)
-                    },
-                )
             }
+            RecipeListItem(
+                recipeList = recipeList,
+                isLoading = isLoading,
+                navController = navController,
+                onFavoriteClick = { recipe ->
+                    viewModel.onFavoriteRecipe(recipe)
+                },
+            )
             if (state.isLoading) {
                 Column(
                     modifier = Modifier

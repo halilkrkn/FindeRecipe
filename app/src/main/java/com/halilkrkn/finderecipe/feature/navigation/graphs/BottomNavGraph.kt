@@ -36,5 +36,6 @@ fun BottomNavGraph(
         }
 
         detailsNavGraph(navController = navController)
+        authNavGraph(navController = navController)
     }
 }

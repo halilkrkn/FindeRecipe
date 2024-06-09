@@ -38,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,11 +60,8 @@ fun SignUpScreen(
     navController: NavController,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    val firstName by rememberSaveable { mutableStateOf("") }
-    val lastName by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    var confirmPassword by rememberSaveable { mutableStateOf("") }
 
     val keyboard = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
@@ -120,18 +118,9 @@ fun SignUpScreen(
                 Spacer(modifier = Modifier.padding(3.dp))
                 PasswordTextField(password = password, onValueChange = { password = it })
 
-//                Spacer(modifier = Modifier.padding(3.dp))
-//                PasswordConfirmTextField(passwordConfirm = confirmPassword)
-
-
-                val gradientColor = listOf(Color(0xFF484BF1), Color(0xFF673AB7))
-                val cornerRadius = 16.dp
-
 
                 Spacer(modifier = Modifier.padding(10.dp))
                 GradientButton(
-                    gradientColors = gradientColor,
-                    cornerRadius = cornerRadius,
                     nameButton = "Create An Account",
                     onClick = {
                         keyboard?.hide()
@@ -148,7 +137,6 @@ fun SignUpScreen(
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()
-                                navController.popBackStack()
                                 navController.navigate(AuthRoutes.SignIn.route)
                             }
                         }
@@ -175,14 +163,12 @@ fun SignUpScreen(
 
                 }) {
                     Text(
-                        text = "Already have an account?",
+                        text = "Already have an account? Sign In",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center,
                         letterSpacing = 1.sp,
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                    Text(
-                        text = " Sign In",
-                        letterSpacing = 1.sp,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 }
             }

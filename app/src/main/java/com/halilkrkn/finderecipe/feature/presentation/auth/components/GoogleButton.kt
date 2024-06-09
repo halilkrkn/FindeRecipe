@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
@@ -33,6 +34,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.halilkrkn.finderecipe.ui.theme.DarkGreen
+import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
+import com.halilkrkn.finderecipe.ui.theme.GoogleBlue
+import com.halilkrkn.finderecipe.ui.theme.GoogleGreen
+import com.halilkrkn.finderecipe.ui.theme.GoogleRed
+import com.halilkrkn.finderecipe.ui.theme.GoogleYellow
+import com.halilkrkn.finderecipe.ui.theme.Razzmatazz
 
 @Composable
 fun GoogleButton(
@@ -43,13 +51,11 @@ fun GoogleButton(
     loadingText: String,
     iconContentDescription: String,
     shape: Shape = CircleShape,
-    borderColor: Color = Color.Green,
-    clickBorderColor: Color = Color.Red,
     clickProgressBarColor: Color = Color.Yellow,
     buttonColors: ButtonColors,
     icon: Painter,
 ) {
-
+    val gradientColor = listOf(GoogleBlue, GoogleRed, GoogleYellow, GoogleGreen)
     var clicked by remember { mutableStateOf(false) }
     Button(
         onClick = {
@@ -59,7 +65,7 @@ fun GoogleButton(
         shape = shape,
         border = BorderStroke(
             width = 2.dp,
-            color = if (clicked) borderColor else clickBorderColor,
+            brush = Brush.horizontalGradient(colors = gradientColor)
         ),
         colors = buttonColors,
         modifier = modifier

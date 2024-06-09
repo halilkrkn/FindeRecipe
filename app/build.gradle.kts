@@ -8,7 +8,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
     id ("com.google.devtools.ksp")
-//    alias(libs.plugins.google.gms.google.services)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -29,8 +29,12 @@ android {
 
         Properties().apply {
             load(project.rootProject.file("local.properties").inputStream())
+
             val apiKey = getProperty("API_KEY")
             buildConfigField("String", "API_KEY", "\"$apiKey\"")
+
+            val googleSecretKey = getProperty("GOOGLE_SECRET_KEY")
+            buildConfigField("String", "GOOGLE_SECRET_KEY", "\"$googleSecretKey\"")
         }
     }
 
@@ -107,8 +111,11 @@ dependencies {
     implementation(libs.lottie.compose)
 
     // Firebase
-//    implementation(libs.firebase.auth)
-//    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.play.services.auth)
+
 
     // Swipe Refresh
     implementation(libs.accompanist.swiperefresh)
@@ -126,13 +133,6 @@ dependencies {
 
     // Splash API
     implementation (libs.androidx.core.splashscreen)
-
-    // ONE TAP GOOGLE SIGN IN WITH FIREBASE
-//    implementation ("com.google.firebase:firebase-auth:22.2.0")
-//    implementation platform("com.google.firebase:firebase-bom:32.4.0")
-//    implementation("com.google.firebase:firebase-auth-ktx")
-//    implementation("com.google.android.gms:play-services-auth:20.4.0")
-
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

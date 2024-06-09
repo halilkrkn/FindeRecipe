@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.halilkrkn.finderecipe.core.resource.Resource
 import com.halilkrkn.finderecipe.data.mappers.toRecipeEntity
 import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
-import com.halilkrkn.finderecipe.domain.usecase.FindeRecipeUseCases
+import com.halilkrkn.finderecipe.domain.usecase.recipe.FindeRecipeUseCases
 import com.halilkrkn.finderecipe.feature.presentation.main.favorite.state.FavoriteRecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

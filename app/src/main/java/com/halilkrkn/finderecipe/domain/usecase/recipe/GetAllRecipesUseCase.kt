@@ -1,4 +1,4 @@
-package com.halilkrkn.finderecipe.domain.usecase
+package com.halilkrkn.finderecipe.domain.usecase.recipe
 
 import com.halilkrkn.finderecipe.core.resource.Resource
 import com.halilkrkn.finderecipe.data.mappers.toRecipe

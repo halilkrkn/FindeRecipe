@@ -13,8 +13,9 @@ fun SetupNavGraph(
     NavHost(
         navController = navController,
         route = Graphs.ROOT,
-        startDestination = Graphs.MAIN
+        startDestination = Graphs.AUTHENTICATION
     ) {
+        authNavGraph(navController = navController)
         mainNavGraph(navController = navController)
     }
 }

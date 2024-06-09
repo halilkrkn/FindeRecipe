@@ -1,23 +1,25 @@
-package com.halilkrkn.finderecipe.domain.usecase
+package com.halilkrkn.finderecipe.domain.usecase.recipe
 
 import com.halilkrkn.finderecipe.core.resource.Resource
-import com.halilkrkn.finderecipe.data.mappers.toRecipeDetail
-import com.halilkrkn.finderecipe.domain.model.recipe_detail.RecipeDetail
+import com.halilkrkn.finderecipe.data.mappers.toSimilarRecipe
+import com.halilkrkn.finderecipe.domain.model.similar_recipe.SimilarRecipe
 import com.halilkrkn.finderecipe.domain.repository.FindeRecipeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetRecipeDetailUseCase @Inject constructor(
+class GetSimilarRecipesUseCase @Inject constructor(
     private val repository: FindeRecipeRepository,
 ) {
-    suspend fun getRecipeDetail(id: Int): Flow<Resource<RecipeDetail?>> = flow {
+    suspend fun getSimilarRecipe(id: Int): Flow<Resource<List<SimilarRecipe>?>> = flow {
         emit(Resource.Loading())
-        val recipeDetail = repository.getRecipeDetail(id = id).body()?.toRecipeDetail()
-        val response = repository.getRecipeDetail(id = id)
+        val similarRecipes = repository.getSimilarRecipes(id = id).body()?.map { similarRecipeResponse ->
+            similarRecipeResponse.toSimilarRecipe()
+        }
+        val response = repository.getSimilarRecipes(id = id)
 
         if (response.isSuccessful) {
-            emit(Resource.Success(recipeDetail))
+            emit(Resource.Success(similarRecipes))
         }
 
         if (response.code() == 400 || response.code() == 401 || response.code() == 402 || response.code() == 403) {
@@ -25,4 +27,5 @@ class GetRecipeDetailUseCase @Inject constructor(
             emit(Resource.Error(message ?: "Unable to send message. Please try again later."))
         }
     }
+
 }

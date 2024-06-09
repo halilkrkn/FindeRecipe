@@ -1,4 +1,4 @@
-package com.halilkrkn.finderecipe.domain.usecase
+package com.halilkrkn.finderecipe.domain.usecase.recipe
 
 data class FindeRecipeUseCases(
     val getAllRecipesUseCase: GetAllRecipesUseCase,

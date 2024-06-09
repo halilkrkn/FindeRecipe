@@ -12,7 +12,20 @@
           "package_name": "com.halilkrkn.finderecipe"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "562718227439-lh3eqopvbrmkcvcikh5f35ftatt6313k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.halilkrkn.finderecipe",
+            "certificate_hash": "b9d4c5c993eceda8e815c5d37ea77f72d482a385"
+          }
+        },
+        {
+          "client_id": "562718227439-0a65sjhnlsi9a18d7108ib2r1ejriddo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBhLDmAhKtBKW7RyspzwZOxbDZ7Llq2tQg"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562718227439-0a65sjhnlsi9a18d7108ib2r1ejriddo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

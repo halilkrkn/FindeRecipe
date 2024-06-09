@@ -103,13 +103,12 @@ fun SignInScreen(
                 navController.popBackStack()
                 navController.navigate(MAIN)
                 viewModel.resetSignInState()
-            } else if (state.isError.isNotEmpty() || googleSignInState.error.isNotEmpty()) {
+            } else if (state.isError.isNotEmpty()) {
                 val error = state.isError.ifEmpty { googleSignInState.error }
                 Toast.makeText(context, error, Toast.LENGTH_LONG).show()
             }
         }
     }
-
 
     LaunchedEffect (key1 = googleSignInState.error) {
         if (googleSignInState.error.isNotEmpty()) {

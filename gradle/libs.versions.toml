@@ -11,6 +11,9 @@ coreTesting = "2.2.0"
 coreTestingVersion = "2.1.0"
 datastorePreferences = "1.1.1"
 dexmakerMockito = "2.28.3"
+firebaseAuthVersion = "22.2.0"
+firebaseBom = "33.1.0"
+firebaseBomVersion = "32.4.0"
 gradle = "8.1.4"
 hiltAndroidCompiler = "2.49"
 hiltAndroid = "2.49"
@@ -43,6 +46,7 @@ okhttp = "5.0.0-alpha.14"
 pagingComposeVersion = "3.3.0"
 pagingRuntimeKtxVersion = "3.3.0"
 googleGmsGoogleServices = "4.4.1"
+playServicesAuth = "21.2.0"
 roomCompiler = "2.6.1"
 roomKtx = "2.6.1"
 roomPaging = "2.6.1"
@@ -85,6 +89,10 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 core-ktx = { module = "androidx.test:core-ktx", version.ref = "core" }
 dexmaker-mockito = { module = "com.linkedin.dexmaker:dexmaker-mockito", version.ref = "dexmakerMockito" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-auth-v2220 = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuthVersion" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-bom-v3240 = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
@@ -116,6 +124,7 @@ mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroid
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
 mockwebserver-v491 = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserverVersion" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "adapterRxjava2" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }

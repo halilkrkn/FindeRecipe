@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,7 +32,7 @@ fun GradientButton(
     onClick: () -> Unit = {},
     nameButton: String,
     roundedCornerShape: RoundedCornerShape,
-//    state: RegisterState,
+    state: Boolean
 ) {
 
     Button(
@@ -72,19 +74,19 @@ fun GradientButton(
                 color = Color.White
             )
 
-//            if (state.isLoading) {
-//                CircularProgressIndicator(
-//                    color = Color.White,
-//                    strokeWidth = 2.dp,
-//                    modifier = Modifier.size(20.dp)
-//                )
-//            } else {
-//                Text(
-//                    text = nameButton,
-//                    fontSize = 20.sp,
-//                    color = Color.White
-//                )
-//            }
+            if (state) {
+                CircularProgressIndicator(
+                    color = Color.White,
+                    strokeWidth = 2.dp,
+                    modifier = Modifier.size(20.dp)
+                )
+            } else {
+                Text(
+                    text = nameButton,
+                    fontSize = 20.sp,
+                    color = Color.White
+                )
+            }
 
         }
     }

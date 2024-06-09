@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.halilkrkn.finderecipe.feature.presentation.auth.register
+package com.halilkrkn.finderecipe.feature.presentation.auth.signUp
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -8,8 +8,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,16 +35,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.feature.navigation.routes.AuthRoutes
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.EmailTextField
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.GradientButton
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.PasswordTextField
+import com.halilkrkn.finderecipe.feature.presentation.components.LoadingProgressBar
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -50,16 +57,18 @@ import java.time.LocalDate
 @Composable
 fun SignUpScreen(
     navController: NavController,
+    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    var firstName by rememberSaveable { mutableStateOf("") }
-    var lastName by rememberSaveable { mutableStateOf("") }
-    var birthDate by rememberSaveable { mutableStateOf(LocalDate.now()) }
+    val firstName by rememberSaveable { mutableStateOf("") }
+    val lastName by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPassword by rememberSaveable { mutableStateOf("") }
 
-    val context = remember { navController.context }
+    val keyboard = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val state = viewModel.signUpState.value
 
     Box(
         modifier = Modifier
@@ -125,22 +134,40 @@ fun SignUpScreen(
                     cornerRadius = cornerRadius,
                     nameButton = "Create An Account",
                     onClick = {
-                        navController.navigate(AuthRoutes.ForgotPassword.route)
-
-                        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                            Toast.makeText(context, "Please fill in the fields", Toast.LENGTH_SHORT)
+                        keyboard?.hide()
+                        if (email.isEmpty() || password.isEmpty()) {
+                            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT)
                                 .show()
                         } else {
                             // SignUp işlemi
+                            scope.launch {
+                                viewModel.signUpWithEmailAndPassword(email, password)
+                                Toast.makeText(
+                                    context,
+                                    "Signed Up Successfully!",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                navController.popBackStack()
+                                navController.navigate(AuthRoutes.SignIn.route)
+                            }
                         }
                     },
-//                    state = state,
-                    roundedCornerShape = RoundedCornerShape(topStart = 45.dp, bottomEnd = 45.dp)
+                    state = state.isLoading,
+                    roundedCornerShape = RoundedCornerShape(topStart = 45.dp, bottomEnd = 45.dp),
                 )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    if (state.isLoading) {
+                        LoadingProgressBar(raw = R.raw.loading)
+                    }
+                }
 
                 Spacer(modifier = Modifier.padding(10.dp))
                 TextButton(onClick = {
-                    navController.navigate(AuthRoutes.LogIn.route)
+                    navController.navigate(AuthRoutes.SignIn.route)
                     {
                         popUpTo(navController.graph.startDestinationId)
                         launchSingleTop = true

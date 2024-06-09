@@ -1,4 +1,4 @@
-package com.halilkrkn.finderecipe.feature.presentation.auth.forgot_password
+package com.halilkrkn.finderecipe.feature.presentation.auth.forgotPassword
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -20,29 +20,43 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.halilkrkn.finderecipe.R
 import com.halilkrkn.finderecipe.feature.navigation.routes.AuthRoutes
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.EmailTextField
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.GradientButton
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun ForgotPasswordScreen(
     navController: NavController,
+    viewModel: ForgotPassswordViewModel = hiltViewModel(),
 ) {
 
     var email by rememberSaveable { mutableStateOf("") }
+    val state = viewModel.forgotPasswordState.value
+    val sendForgotEmail = viewModel.sendForgotEmail.value
+
+
+    val keyboard = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -115,12 +129,29 @@ fun ForgotPasswordScreen(
                             ).show()
                         } else {
                             // ForgotPassword İşlemi
+                            keyboard?.hide()
+                            scope.launch {
+                                viewModel.forgotPasswordWithEmail(email)
+                            }
                         }
-                        navController.navigate(AuthRoutes.LogIn.route)
+                        navController.navigate(AuthRoutes.SignIn.route)
 
                     },
-//                    state = state
+                    state = state.isLoading
                 )
+
+                if (sendForgotEmail) {
+                    scope.launch {
+                        delay(1000L)
+                        navController.navigate(AuthRoutes.SignIn.route) {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
+
+                        Toast.makeText(context, "Has Been Send Forgot Password Email", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
 
                 Spacer(modifier = Modifier.padding(10.dp))
                 TextButton(onClick = {

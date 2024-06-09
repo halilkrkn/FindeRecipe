@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "562718227439",
+    "project_id": "finderecipe",
+    "storage_bucket": "finderecipe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562718227439:android:889f0949c637fc315e141a",
+        "android_client_info": {
+          "package_name": "com.halilkrkn.finderecipe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhLDmAhKtBKW7RyspzwZOxbDZ7Llq2tQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

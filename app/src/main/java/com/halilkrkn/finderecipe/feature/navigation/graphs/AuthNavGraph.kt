@@ -6,22 +6,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.halilkrkn.finderecipe.feature.navigation.routes.AuthRoutes
 import com.halilkrkn.finderecipe.feature.navigation.util.Graphs
-import com.halilkrkn.finderecipe.feature.presentation.auth.forgot_password.ForgotPasswordScreen
-import com.halilkrkn.finderecipe.feature.presentation.auth.login.LogInScreen
-import com.halilkrkn.finderecipe.feature.presentation.auth.register.SignUpScreen
+import com.halilkrkn.finderecipe.feature.presentation.auth.forgotPassword.ForgotPasswordScreen
+import com.halilkrkn.finderecipe.feature.presentation.auth.signIn.SignInScreen
+import com.halilkrkn.finderecipe.feature.presentation.auth.signUp.SignUpScreen
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
 ) {
     navigation(
-        startDestination = AuthRoutes.LogIn.route,
+        startDestination = AuthRoutes.SignIn.route,
         route = Graphs.AUTHENTICATION
     ) {
 
         composable(
-            route = AuthRoutes.LogIn.route
+            route = AuthRoutes.SignIn.route
         ) {
-            LogInScreen(navController = navController)
+            SignInScreen(navController = navController)
         }
 
         composable(

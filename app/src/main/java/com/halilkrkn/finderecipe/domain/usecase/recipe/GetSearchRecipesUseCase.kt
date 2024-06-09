@@ -1,4 +1,4 @@
-package com.halilkrkn.finderecipe.domain.usecase
+package com.halilkrkn.finderecipe.domain.usecase.recipe
 
 import com.halilkrkn.finderecipe.core.resource.Resource
 import com.halilkrkn.finderecipe.data.mappers.toRecipe
@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetMealTypeRecipesUseCase @Inject constructor(
+class GetSearchRecipesUseCase@Inject constructor(
     private val repository: FindeRecipeRepository
 ) {
-    suspend fun getMealTypeRecipes(mealType: String): Flow<Resource<List<Recipe>?>> = flow {
+    suspend fun getSearchRecipes(query: String) : Flow<Resource<List<Recipe>?>> = flow {
         emit(Resource.Loading())
-        val recipes = repository.getMealTypeRecipes(mealType = mealType).body()?.recipeResponses?.map { recipeResponse ->
+        val recipes = repository.getSearchRecipe(query = query).body()?.recipeResponses?.map { recipeResponse ->
             recipeResponse.toRecipe()
         }
-        val response = repository.getMealTypeRecipes(mealType = mealType)
+        val response = repository.getSearchRecipe(query = query)
 
         if (response.isSuccessful) {
             emit(Resource.Success(recipes))

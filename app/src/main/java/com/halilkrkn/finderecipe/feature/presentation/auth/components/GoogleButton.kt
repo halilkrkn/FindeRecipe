@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 fun GoogleButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    state: Boolean,
     text: String,
     loadingText: String,
     iconContentDescription: String,
@@ -50,11 +51,8 @@ fun GoogleButton(
 ) {
 
     var clicked by remember { mutableStateOf(false) }
-
-    // Google ile giriş yapma düğmesi
     Button(
         onClick = {
-            // Google ile giriş işlemleri yapılabilir.
             clicked = !clicked
             onClick()
         },
@@ -100,7 +98,7 @@ fun GoogleButton(
                 text = if (clicked) loadingText else text
             )
             Spacer(modifier = Modifier.width(8.dp))
-            if (clicked) {
+            if (state) {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .height(24.dp)

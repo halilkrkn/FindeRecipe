@@ -20,13 +20,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.halilkrkn.finderecipe.core.util.MealTypes
 import com.halilkrkn.finderecipe.ui.theme.Copper
+import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
+import com.halilkrkn.finderecipe.ui.theme.FloralWhiteCream
+import com.halilkrkn.finderecipe.ui.theme.OxfordBlue
 
 @Composable
 fun InputChipSection(
     onClick: (String) -> Unit,
     mealTypes: List<MealTypes>,
+
 ) {
-    val clickColor = remember { mutableStateOf(false) }
+
+    val selectedChip = remember { mutableStateOf<String?>(null) }
+
     LazyRow(
         modifier = Modifier
             .padding(horizontal = 8.dp)
@@ -38,17 +44,22 @@ fun InputChipSection(
             mealTypes,
             key = { mealType -> mealType.type }
         ) { mealType ->
+            val isSelected = mealType.type == selectedChip.value
+
             SuggestionChip(
                 shape = RoundedCornerShape(12.dp),
                 border = SuggestionChipDefaults.suggestionChipBorder(
                     enabled = true,
-                    borderColor = Copper,
-                    borderWidth = 1.5f.dp
+                    borderColor = OxfordBlue,
+                    borderWidth = 1.2f.dp
+                ),
+                colors = SuggestionChipDefaults.suggestionChipColors(
+                    containerColor = if (isSelected) FloralWhiteCream else Color.White
                 ),
                 modifier = Modifier.padding(horizontal = 6.dp),
                 onClick = {
                     onClick(mealType.type)
-                    clickColor.value = !clickColor.value
+                    selectedChip.value = if (isSelected) null else mealType.type
                 },
                 label = {
                     Text(

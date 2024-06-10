@@ -55,7 +55,7 @@ fun RecipeMealTypeSection(
                 raw = R.raw.image_error
             )
             Text(
-                text = if (mealTypes.isEmpty()) "No answer found for meal types!" else error ?: "No answer found for meal types",
+                text = if (mealTypes.isEmpty()) "No answer found for Meal Types!" else error ?: "No answer found for Meal Types",
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentWidth(Alignment.CenterHorizontally)

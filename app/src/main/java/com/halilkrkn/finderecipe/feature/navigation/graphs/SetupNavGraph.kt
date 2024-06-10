@@ -9,12 +9,15 @@ import com.halilkrkn.finderecipe.feature.navigation.util.Graphs
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
+    startDestination: String
 ) {
     NavHost(
         navController = navController,
         route = Graphs.ROOT,
-        startDestination = Graphs.AUTHENTICATION
+        startDestination = startDestination
     ) {
+        splashNavGraph(navController = navController)
+        onboardingNavGraph(navController = navController)
         authNavGraph(navController = navController)
         mainNavGraph(navController = navController)
     }

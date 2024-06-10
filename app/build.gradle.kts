@@ -91,6 +91,8 @@ dependencies {
 
     // Coil Compose
     implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
+
 
     // Dagger Hilt
     implementation(libs.hilt.android)

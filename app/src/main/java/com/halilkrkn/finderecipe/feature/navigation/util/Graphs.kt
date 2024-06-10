@@ -5,4 +5,6 @@ object Graphs {
     const val MAIN = "main_graph"
     const val DETAILS = "details_graph"
     const val AUTHENTICATION = "authentication_graph"
+    const val SPLASH = "splash_graph"
+
 }

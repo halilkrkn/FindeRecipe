@@ -61,7 +61,6 @@ import com.halilkrkn.finderecipe.feature.presentation.auth.components.GoogleButt
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.GradientButton
 import com.halilkrkn.finderecipe.feature.presentation.auth.components.PasswordTextField
 import com.halilkrkn.finderecipe.ui.theme.Coral
-import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import com.halilkrkn.finderecipe.ui.theme.Razzmatazz
 import kotlinx.coroutines.launch

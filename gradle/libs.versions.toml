@@ -1,4 +1,6 @@
 [versions]
+accompanistPager = "0.24.2-alpha"
+accompanistPagerIndicators = "0.24.2-alpha"
 accompanistSwiperefresh = "0.31.5-beta"
 adapterRxjava2 = "2.11.0"
 agp = "8.4.1"
@@ -66,6 +68,8 @@ uiTestManifest = "1.6.7"
 
 
 [libraries]
+accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPagerIndicators" }
+accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefresh" }
 adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "adapterRxjava2" }
 androidx-core = { module = "androidx.test:core", version.ref = "core" }

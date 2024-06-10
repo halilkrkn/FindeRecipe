@@ -118,6 +118,9 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.play.services.auth)
 
+    // Pager and Indicator
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
 
     // Swipe Refresh
     implementation(libs.accompanist.swiperefresh)

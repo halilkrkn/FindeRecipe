@@ -11,12 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.halilkrkn.finderecipe.feature.navigation.graphs.SetupNavGraph
@@ -48,8 +48,10 @@ class MainActivity : ComponentActivity() {
                     color = FloralWhite
                 ) {
                     navController = rememberNavController()
+                    val startDestination by splashViewModel.startDestination
                     SetupNavGraph(
-                        navController = navController
+                        navController = navController,
+                        startDestination = startDestination
                     )
                 }
             }

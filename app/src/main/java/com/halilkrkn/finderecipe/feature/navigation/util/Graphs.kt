@@ -6,5 +6,5 @@ object Graphs {
     const val DETAILS = "details_graph"
     const val AUTHENTICATION = "authentication_graph"
     const val SPLASH = "splash_graph"
-
+    const val ONBOARDING = "onboarding_graph"
 }

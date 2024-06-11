@@ -93,10 +93,13 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
 
-
     // Dagger Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.hilt.android.compiler)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     //DataStore

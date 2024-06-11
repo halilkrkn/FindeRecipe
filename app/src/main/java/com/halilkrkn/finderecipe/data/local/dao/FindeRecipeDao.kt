@@ -16,9 +16,6 @@ interface FindeRecipeDao {
     @Delete
     suspend fun deleteFavoriteRecipe(favoriteRecipe: RecipeEntity)
 
-//    @Query("SELECT * FROM movies_favorite WHERE userId = :userId")
-//    fun getAllFavorite(recipeId: String): Flow<List<RecipeEntity>>
-
     @Query("SELECT * FROM recipes  WHERE userId = :userId ORDER BY id ASC ")
     fun getAllFavoriteRecipes(userId: String): Flow<List<RecipeEntity>>
 

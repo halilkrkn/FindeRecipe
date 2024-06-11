@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 import com.halilkrkn.finderecipe.feature.navigation.util.Graphs
 import com.halilkrkn.finderecipe.feature.presentation.main.detail.DetailRecipeScreen
+import com.halilkrkn.finderecipe.feature.presentation.main.notification.NotificationScreen
 import com.halilkrkn.finderecipe.feature.presentation.main.recent_recipe.RecipeListScreen
 
 fun NavGraphBuilder.detailsNavGraph(
@@ -30,6 +31,10 @@ fun NavGraphBuilder.detailsNavGraph(
 
         composable(route = DetailsRoutes.RecipeList.route) {
             RecipeListScreen(navController = navController)
+        }
+
+        composable(route = DetailsRoutes.Notification.route) {
+            NotificationScreen(navController = navController)
         }
     }
 }

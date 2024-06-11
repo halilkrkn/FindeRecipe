@@ -11,8 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +29,7 @@ import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.Rec
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.TopBar
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 @Composable
 fun RecipesScreen(
@@ -69,7 +69,7 @@ fun RecipesScreen(
         containerColor = FloralWhite,
         topBar = {
             TopBar(
-                navController = navController
+                navController = navController,
             )
         }
     ) { innerPadding ->

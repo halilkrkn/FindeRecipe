@@ -22,7 +22,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.halilkrkn.finderecipe.DaggerHiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -163,7 +163,7 @@ dependencies {
 
     // Instrumentation tests
     androidTestImplementation (libs.hilt.android.testing)
-    kaptAndroidTest (libs.hilt.android.compiler.v237)
+    kspAndroidTest(libs.hilt.android.compiler.v237)
     androidTestImplementation (libs.junit)
     androidTestImplementation (libs.dexmaker.mockito)
     androidTestImplementation (libs.kotlinx.coroutines.test)

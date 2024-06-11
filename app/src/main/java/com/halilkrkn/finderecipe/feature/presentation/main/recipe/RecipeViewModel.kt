@@ -1,5 +1,6 @@
 package com.halilkrkn.finderecipe.feature.presentation.main.recipe
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -49,7 +50,6 @@ class RecipeViewModel @Inject constructor(
             recipeUseCases.getAllRecipesUseCase.getAllRecipes().onEach { result ->
                 when (result) {
                     is Resource.Success -> {
-
                         val recipeList = result.data
                         _state.value = RecipeState(
                             isLoading = false,

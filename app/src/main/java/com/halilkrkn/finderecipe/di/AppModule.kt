@@ -8,8 +8,11 @@ import com.halilkrkn.finderecipe.data.local.db.FindeRecipeDatabase
 import com.halilkrkn.finderecipe.data.remote.api.FindeRecipeApi
 import com.halilkrkn.finderecipe.data.repository.FindeRecipeOnBoardingRepositoryImpl
 import com.halilkrkn.finderecipe.data.repository.FindeRecipeRepositoryImpl
+import com.halilkrkn.finderecipe.data.repository.FindeRecipeNotificationRepositoryImpl
 import com.halilkrkn.finderecipe.domain.repository.FindeRecipeOnBoardingRepository
 import com.halilkrkn.finderecipe.domain.repository.FindeRecipeRepository
+import com.halilkrkn.finderecipe.domain.repository.FindeRecipeNotificationRepository
+import com.halilkrkn.finderecipe.domain.usecase.notification.NotificationUseCase
 import com.halilkrkn.finderecipe.domain.usecase.onboarding.FindeRecipeOnBoardingUseCase
 import com.halilkrkn.finderecipe.domain.usecase.recipe.FindeRecipeUseCases
 import com.halilkrkn.finderecipe.domain.usecase.recipe.GetAllRecipesUseCase
@@ -59,12 +62,27 @@ object AppModule {
     @Singleton
     @Provides
     fun provideOnboardingRepository(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): FindeRecipeOnBoardingRepository {
         return FindeRecipeOnBoardingRepositoryImpl(context)
     }
 
     @Singleton
     @Provides
-    fun provideOnboardingUseCases(repository: FindeRecipeOnBoardingRepository) = FindeRecipeOnBoardingUseCase(repository)
+    fun provideOnboardingUseCases(repository: FindeRecipeOnBoardingRepository) =
+        FindeRecipeOnBoardingUseCase(repository)
+
+    @Singleton
+    @Provides
+    fun provideNotificationRepository(
+        db: FindeRecipeDatabase,
+    ): FindeRecipeNotificationRepository {
+        return FindeRecipeNotificationRepositoryImpl(db)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationUseCases(repository: FindeRecipeNotificationRepository) =
+        NotificationUseCase(repository)
+
 }

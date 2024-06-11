@@ -36,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.halilkrkn.finderecipe.R
+import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 import com.halilkrkn.finderecipe.feature.navigation.util.Graphs.AUTHENTICATION
 import com.halilkrkn.finderecipe.ui.theme.OxfordBlue
 
@@ -106,17 +107,21 @@ fun TopBar(
         }
 
         BadgedBox(
-            modifier = Modifier.padding(end = 8.dp),
+            modifier = Modifier
+                .clickable {
+                    navController.navigate(DetailsRoutes.Notification.route)
+                }
+                .padding(end = 8.dp),
             badge = {
                 Badge {
-                    Text(
-                        text = "3",
-                        style = TextStyle(
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
+                        Text(
+                            text = "1",
+                            style = TextStyle(
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         )
-                    )
                 }
             }) {
             Icon(

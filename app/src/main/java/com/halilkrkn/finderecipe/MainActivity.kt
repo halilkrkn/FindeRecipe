@@ -34,6 +34,11 @@ import com.halilkrkn.finderecipe.ui.theme.FindeRecipeTheme
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import com.halilkrkn.finderecipe.ui.theme.FloralWhiteCream
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
@@ -41,6 +46,8 @@ import java.util.concurrent.TimeUnit
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavHostController
     private val splashViewModel: SplashViewModel by viewModels()
+    lateinit var scope: CoroutineScope
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,20 +76,41 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        scope = CoroutineScope(Dispatchers.IO)
+        // WorkManager Kısıtlamarı
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        // WorkManager işini planlama
-        val workRequest = PeriodicWorkRequestBuilder<ApiWorker>(repeatInterval = 5, repeatIntervalTimeUnit =  TimeUnit.MINUTES)
-            .setConstraints(constraints)
-            .build()
+        scope.launch(Dispatchers.IO) {
+            delay(Duration.ofMinutes(1).toMillis())
+            // WorkManager işini planlama
+            val workRequest = PeriodicWorkRequestBuilder<ApiWorker>(
+                repeatInterval = 5,
+                repeatIntervalTimeUnit = TimeUnit.MINUTES
+            )
+                .setConstraints(constraints)
+                .setInitialDelay(1, TimeUnit.MINUTES)
+                .setBackoffCriteria(BackoffPolicy.LINEAR, Duration.ofMinutes(15))
+                .build()
 
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "RecipeUpdateWork",
-            ExistingPeriodicWorkPolicy.UPDATE,
-            workRequest
-        )
+            WorkManager.getInstance(this@MainActivity).enqueueUniquePeriodicWork(
+                "RecipeUpdateWork",
+                ExistingPeriodicWorkPolicy.UPDATE,
+                workRequest
+            )
+        }
+//        // WorkManager işini planlama
+//        val workRequest = PeriodicWorkRequestBuilder<ApiWorker>(repeatInterval = 5, repeatIntervalTimeUnit =  TimeUnit.MINUTES)
+//            .setConstraints(constraints)
+//            .setInitialDelay(1, TimeUnit.MINUTES)
+//            .build()
+//
+//        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+//            "RecipeUpdateWork",
+//            ExistingPeriodicWorkPolicy.UPDATE,
+//            workRequest
+//        )
     }
 }
 

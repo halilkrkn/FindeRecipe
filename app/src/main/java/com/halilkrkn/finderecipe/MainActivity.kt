@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -24,8 +25,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.halilkrkn.finderecipe.core.work_manager.ApiWorker
 import com.halilkrkn.finderecipe.feature.navigation.graphs.SetupNavGraph
@@ -76,41 +80,64 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+
         scope = CoroutineScope(Dispatchers.IO)
-        // WorkManager Kısıtlamarı
+        // WorkManager Kısıtlamaları
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        scope.launch(Dispatchers.IO) {
-            delay(Duration.ofMinutes(1).toMillis())
-            // WorkManager işini planlama
-            val workRequest = PeriodicWorkRequestBuilder<ApiWorker>(
-                repeatInterval = 5,
-                repeatIntervalTimeUnit = TimeUnit.MINUTES
-            )
-                .setConstraints(constraints)
-                .setInitialDelay(1, TimeUnit.MINUTES)
-                .setBackoffCriteria(BackoffPolicy.LINEAR, Duration.ofMinutes(15))
-                .build()
+        // İlk çalıştırma için OneTimeWorkRequest
+        val oneTimeWorkRequest = OneTimeWorkRequestBuilder<ApiWorker>()
+            .setConstraints(constraints)
+            .setInitialDelay(1, TimeUnit.MINUTES)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.MINUTES)
+            .build()
 
-            WorkManager.getInstance(this@MainActivity).enqueueUniquePeriodicWork(
-                "RecipeUpdateWork",
-                ExistingPeriodicWorkPolicy.UPDATE,
-                workRequest
-            )
-        }
-//        // WorkManager işini planlama
-//        val workRequest = PeriodicWorkRequestBuilder<ApiWorker>(repeatInterval = 5, repeatIntervalTimeUnit =  TimeUnit.MINUTES)
-//            .setConstraints(constraints)
-//            .setInitialDelay(1, TimeUnit.MINUTES)
-//            .build()
-//
-//        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-//            "RecipeUpdateWork",
-//            ExistingPeriodicWorkPolicy.UPDATE,
-//            workRequest
-//        )
+        WorkManager.getInstance(this).enqueueUniqueWork(
+            "OneTimeRecipeUpdateWork",
+            ExistingWorkPolicy.REPLACE,
+            oneTimeWorkRequest
+        )
+
+        // PeriodicWorkRequest oluşturulması
+        val periodicWorkRequest = PeriodicWorkRequestBuilder<ApiWorker>(
+            15, TimeUnit.MINUTES
+        ).build()
+
+        // OneTimeWorkRequest tamamlandıktan sonra PeriodicWorkRequest başlatma
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
+            .observe(this) { workInfo ->
+                if (workInfo != null && workInfo.state.isFinished) {
+                    WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                        "PeriodicRecipeUpdateWork",
+                        ExistingPeriodicWorkPolicy.UPDATE,
+                        periodicWorkRequest
+                    )
+                }
+            }
+
+        // WorkManager iş durumunu kontrol etmek için log eklemek
+        WorkManager.getInstance(this).getWorkInfosForUniqueWorkLiveData("PeriodicRecipeUpdateWork")
+            .observe(this) { workInfos ->
+                if (workInfos.isNotEmpty()) {
+                    val workInfo = workInfos[0]
+                    Log.d("WorkManager", "WorkInfo state: ${workInfo.state}")
+                    if (workInfo.state == WorkInfo.State.ENQUEUED) {
+                        Log.d("WorkManager", "Work enqueued and waiting")
+                    } else if (workInfo.state == WorkInfo.State.RUNNING) {
+                        Log.d("WorkManager", "Work is running")
+                    } else if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                        Log.d("WorkManager", "Work succeeded")
+                    } else if (workInfo.state == WorkInfo.State.FAILED) {
+                        Log.d("WorkManager", "Work failed")
+                    } else if (workInfo.state == WorkInfo.State.BLOCKED) {
+                        Log.d("WorkManager", "Work is blocked")
+                    } else if (workInfo.state == WorkInfo.State.CANCELLED) {
+                        Log.d("WorkManager", "Work is cancelled")
+                    }
+                }
+            }
     }
 }
 

@@ -28,7 +28,6 @@ class FindeRecipeDaoTest {
 
     private lateinit var dao: FindeRecipeDao
 
-    // Test methods here
     @Before
     fun setup() {
         hiltRule.inject()
@@ -56,8 +55,8 @@ class FindeRecipeDaoTest {
         dao.insertFavoriteRecipe(recipeEntity)
 
         // Then
-        dao.getAllFavoriteRecipes(recipeEntity.userId).first().let { favoriteMovies ->
-            assertThat(favoriteMovies).contains(recipeEntity)
+        dao.getAllFavoriteRecipes(recipeEntity.userId).first().let { recipes ->
+            assertThat(recipes).contains(recipeEntity)
         }
     }
 
@@ -78,8 +77,8 @@ class FindeRecipeDaoTest {
         dao.deleteFavoriteRecipe(recipeEntity)
 
         // Then
-        dao.getAllFavoriteRecipes(recipeEntity.userId).first().let { favoriteMovies ->
-            assertThat(favoriteMovies).doesNotContain(recipeEntity)
+        dao.getAllFavoriteRecipes(recipeEntity.userId).first().let { recipes ->
+            assertThat(recipes).doesNotContain(recipeEntity)
         }
     }
 
@@ -99,8 +98,8 @@ class FindeRecipeDaoTest {
         dao.insertFavoriteRecipe(recipeEntity)
 
         // Then
-        dao.searchFavoriteRecipe("The Recipe").first().let { favoriteMovies ->
-            assertThat(favoriteMovies).contains(recipeEntity)
+        dao.searchFavoriteRecipe("The Recipe").first().let { recipes ->
+            assertThat(recipes).contains(recipeEntity)
         }
     }
 
@@ -118,8 +117,8 @@ class FindeRecipeDaoTest {
         dao.insertFavoriteRecipe(recipeEntity)
 
         // Then
-        dao.searchFavoriteRecipe("The Movie 2").first().let { favoriteMovies ->
-            assertThat(favoriteMovies).doesNotContain(recipeEntity)
+        dao.searchFavoriteRecipe("Recipe 2").first().let { recipes ->
+            assertThat(recipes).doesNotContain(recipeEntity)
         }
     }
 

@@ -39,7 +39,6 @@ class DetailRecipeViewModel @Inject constructor(
 
     init {
         getRecipeDetail(id = recipeId.toInt())
-//        getSimilarRecipe(id = recipeId.toInt())
     }
 
     private fun getRecipeDetail(id: Int) {

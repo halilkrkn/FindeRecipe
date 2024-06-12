@@ -33,7 +33,6 @@ fun FinishButton(modifier: Modifier = Modifier, pagerState: PagerState, onClick:
             visible = pagerState.currentPage == 4
         ) {
             Button(
-//                modifier = Modifier.padding(top = 20.dp),
                 onClick = onClick,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = FloralWhiteCream,

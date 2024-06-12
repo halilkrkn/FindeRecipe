@@ -45,7 +45,7 @@ fun DetailRecipeImage(
                 Box(
                     modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
                 ) {
-                    Icon( // Use an icon to indicate error
+                    Icon(
                         imageVector = Icons.Default.Error,
                         contentDescription = "Failed to load image"
                     )

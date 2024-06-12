@@ -31,8 +31,6 @@ class ApiWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        var count : MutableStateFlow<Int> = MutableStateFlow(0)
-
         return try {
             val response = apiService.getRecipes()
             if (response.isSuccessful) {
@@ -43,7 +41,6 @@ class ApiWorker @AssistedInject constructor(
                         db.notificationDao().insertNotification(message.toNotificationEntity())
                     }
                 }
-                count.value++
                 Result.success()
             } else {
                 Result.retry()
@@ -81,12 +78,12 @@ class ApiWorker @AssistedInject constructor(
         val message = "Yeni tarifler eklendi, göz atmayı unutmayın! 🧐"
 
         val notification = NotificationCompat.Builder(applicationContext, channelId)
-            .setSmallIcon(R.drawable.finde_recipe_round)
+            .setSmallIcon(R.drawable.servings)
             .setContentTitle(title)
             .setContentText(message)
             .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setColor(ContextCompat.getColor(applicationContext, R.color.black))
+            .setColor(ContextCompat.getColor(applicationContext, R.color.heat_wave))
             .setStyle(NotificationCompat.BigTextStyle().bigText(message).setBigContentTitle(title))
             .setContentIntent(pendingIntent)
             .build()

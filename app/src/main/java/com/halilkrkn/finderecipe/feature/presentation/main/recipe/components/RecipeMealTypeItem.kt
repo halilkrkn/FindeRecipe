@@ -46,7 +46,6 @@ fun RecipeMealTypeItem(
     modifier: Modifier = Modifier,
     onItemClick: (Recipe) -> Unit,
     onFavoriteClick: (Recipe) -> Unit,
-//    isFavorite: Boolean = false
 ) {
     val isFavoriteRecipe  = remember {
         mutableStateOf(false)

@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -21,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -32,6 +37,7 @@ import com.halilkrkn.finderecipe.feature.presentation.main.favorite.component.Fa
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FavoriteRecipesScreen(
     modifier: Modifier = Modifier,
@@ -43,6 +49,7 @@ fun FavoriteRecipesScreen(
     val searchQuery = viewModel.searchQuery.value
     val recipeList = state.recipeList
     val isLoading = state.isLoading
+    val isRefreshing = viewModel.isRefreshing.value
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -56,17 +63,23 @@ fun FavoriteRecipesScreen(
         containerColor = FloralWhite,
         topBar = {
             AppTopBar(
-                title = "Favorite Recipes",
-                onRefresh = {
-                    viewModel.onRefresh()
-                }
+                title = "Favorite Recipes"
             )
         }
     ) { innerPadding ->
+
+        val pullRefresh = rememberPullRefreshState(
+            refreshing = isRefreshing,
+            onRefresh = {
+                viewModel.onRefresh()
+            }
+        )
+
         Column(
             modifier = modifier
                 .padding(innerPadding)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .pullRefresh(pullRefresh),
         ) {
             SearchBar(
                 searchQuery = searchQuery,
@@ -111,7 +124,7 @@ fun FavoriteRecipesScreen(
                         viewModel.onDeleteFavoritesRecipe(movies)
                         scope.launch {
                             when (snackbarHostState.showSnackbar(
-                                message = "Movie deleted from favorites",
+                                message = "Recipes deleted from favorites",
                                 actionLabel = "Undo",
                                 withDismissAction = true,
                                 duration = SnackbarDuration.Short
@@ -141,6 +154,21 @@ fun FavoriteRecipesScreen(
                     LoadingProgressBar(raw = R.raw.loading)
                 }
             }
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            PullRefreshIndicator(
+                refreshing = isRefreshing,
+                state = pullRefresh,
+                backgroundColor = Color.Black,
+                contentColor = FloralWhite,
+                scale = true
+            )
         }
     }
 }

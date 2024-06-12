@@ -34,12 +34,22 @@ class RecentRecipeListViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
+    private val _isRefreshing = mutableStateOf(false)
+    val isRefreshing: State<Boolean> = _isRefreshing
+
     private var job: Job? = null
 
     init {
         getSearchRecipe(query = "")
     }
 
+    fun onRefresh() {
+        _isRefreshing.value = true
+        _isLoading.value = true
+        getSearchRecipe(query = "")
+        _isRefreshing.value = false
+        _isLoading.value = false
+    }
     fun onSearch(query: String) {
         getSearchRecipe(query)
     }

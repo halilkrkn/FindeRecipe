@@ -9,7 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +24,7 @@ import com.halilkrkn.finderecipe.domain.model.recipe.Recipe
 import com.halilkrkn.finderecipe.feature.navigation.routes.DetailsRoutes
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @SuppressLint("UnrememberedAnimatable")
 @Composable
 fun RecipeMealTypeItemScreen(
@@ -28,7 +32,7 @@ fun RecipeMealTypeItemScreen(
     navController: NavController,
     onFavoriteClick: (Recipe) -> Unit,
 ) {
-    val pullRefreshState = rememberPullToRefreshState()
+
 
     Box(
         modifier = Modifier
@@ -57,15 +61,8 @@ fun RecipeMealTypeItemScreen(
                     onFavoriteClick = { favoriteRecipe ->
                         onFavoriteClick(favoriteRecipe)
                     },
-//                    isFavorite = isFavorite
                 )
             }
         }
-
-
-//        PullToRefreshContainer(
-//            state = pullRefreshState,
-//            modifier = Modifier.align(Alignment.TopCenter),
-//        )
     }
 }

@@ -90,8 +90,8 @@ class MainActivity : ComponentActivity() {
         // İlk çalıştırma için OneTimeWorkRequest
         val oneTimeWorkRequest = OneTimeWorkRequestBuilder<ApiWorker>()
             .setConstraints(constraints)
-            .setInitialDelay(1, TimeUnit.MINUTES)
-            .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.MINUTES)
+            .setInitialDelay(2, TimeUnit.MINUTES)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 2, TimeUnit.MINUTES)
             .build()
 
         WorkManager.getInstance(this).enqueueUniqueWork(

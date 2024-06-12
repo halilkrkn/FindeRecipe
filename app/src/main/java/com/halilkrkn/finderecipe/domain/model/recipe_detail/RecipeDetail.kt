@@ -1,0 +1,25 @@
+package com.halilkrkn.finderecipe.domain.model.recipe_detail
+
+data class RecipeDetail(
+    val id: Int,
+    val aggregateLikes: Int,
+    val analyzedInstructions: List<AnalyzedInstruction>,
+    val cookingMinutes: Int,
+    val creditsText: String,
+    val extendedIngredients: List<ExtendedIngredient>,
+    val healthScore: Int,
+    val image: String,
+    val imageType: String,
+    val instructions: String,
+    val preparationMinutes: Int,
+    val pricePerServing: Double,
+    val readyInMinutes: Int,
+    val servings: Int,
+    val sourceName: String,
+    val sourceUrl: String,
+    val spoonacularScore: Double,
+    val spoonacularSourceUrl: String,
+    val summary: String,
+    val title: String,
+    val veryPopular: Boolean,
+)

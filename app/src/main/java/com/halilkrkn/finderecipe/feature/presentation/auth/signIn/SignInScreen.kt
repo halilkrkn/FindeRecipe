@@ -207,6 +207,7 @@ fun SignInScreen(
                             scope.launch {
                                 navController.popBackStack()
                                 viewModel.signInWithEmailAndPassword(email, password)
+                                navController.navigate(MAIN)
                             }
                         }
                     },

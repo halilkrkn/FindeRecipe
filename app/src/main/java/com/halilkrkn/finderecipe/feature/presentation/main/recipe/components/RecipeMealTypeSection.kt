@@ -43,24 +43,35 @@ fun RecipeMealTypeSection(
     }
 
     if (mealTypes.isEmpty() && !isLoading) {
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .size(120.dp)
+                .padding(24.dp),
+            contentAlignment = Alignment.TopCenter
         ) {
             LoadingProgressBar(
-                modifier = Modifier
-                    .size(width = 200.dp, height = 200.dp),
-                raw = R.raw.image_error
-            )
-            Text(
-                text = if (mealTypes.isEmpty()) "No answer found for Meal Types!" else error ?: "No answer found for Meal Types",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally)
+                raw = R.raw.loading
             )
         }
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center
+//        ) {
+//            LoadingProgressBar(
+//                modifier = Modifier
+//                    .size(width = 200.dp, height = 200.dp),
+//                raw = R.raw.image_error
+//            )
+//            Text(
+//                text = if (mealTypes.isEmpty()) "No answer found for Meal Types!" else error ?: "No answer found for Meal Types",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .wrapContentWidth(Alignment.CenterHorizontally)
+//            )
+//        }
     }
 
     Column(

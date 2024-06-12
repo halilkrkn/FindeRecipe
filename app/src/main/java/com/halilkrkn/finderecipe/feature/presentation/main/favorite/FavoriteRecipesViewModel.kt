@@ -35,6 +35,9 @@ class FavoriteRecipesViewModel @Inject constructor(
     private val _searchQuery = mutableStateOf<String>("")
     val searchQuery: State<String> = _searchQuery
 
+    private val _isRefreshing = mutableStateOf(false)
+    val isRefreshing: State<Boolean> = _isRefreshing
+
     private val userId = firebaseUser?.currentUser?.uid.toString()
 
     private var job: Job? = null
@@ -44,7 +47,11 @@ class FavoriteRecipesViewModel @Inject constructor(
     }
 
     fun onRefresh() {
+        _isRefreshing.value = true
+        _isLoading.value = true
         getFavoriteFindeRecipes(userId = userId)
+        _isRefreshing.value = false
+        _isLoading.value = false
     }
 
     private fun getFavoriteFindeRecipes(userId: String) {

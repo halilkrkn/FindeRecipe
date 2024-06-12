@@ -1,6 +1,8 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.halilkrkn.finderecipe.feature.presentation.main.recipe
 
-import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,12 +10,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,10 +38,11 @@ import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.Inp
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.RecentRecipesListSection
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.RecipeMealTypeSection
 import com.halilkrkn.finderecipe.feature.presentation.main.recipe.components.TopBar
+import com.halilkrkn.finderecipe.ui.theme.DarkMidnightBlue
 import com.halilkrkn.finderecipe.ui.theme.FloralWhite
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipesScreen(
     modifier: Modifier = Modifier,
@@ -42,6 +54,7 @@ fun RecipesScreen(
     val isLoading = state.isLoading
     val error = state.error
     val recipeList = state.recipeList
+    val isRefresh by viewModel.isRefreshing
 
     val mealTypeRecipeList = viewModel.stateMealType.value.mealTypesList
 
@@ -74,10 +87,18 @@ fun RecipesScreen(
         }
     ) { innerPadding ->
 
+        val pullRefresh = rememberPullRefreshState(
+            refreshing = isRefresh,
+            onRefresh = {
+                viewModel.onRefresh()
+            }
+        )
+
         val verticalScrollState = rememberScrollState()
         Column(
             modifier = modifier
                 .padding(innerPadding)
+                .pullRefresh(pullRefresh)
                 .verticalScroll(verticalScrollState)
                 .fillMaxSize()
         ) {
@@ -102,7 +123,6 @@ fun RecipesScreen(
             InputChipSection(
                 onClick = { mealType ->
                     scope.launch {
-                        Log.d("TAG", "InputChipSection: $mealType clicked")
                         viewModel.getMealTypeRecipes(mealType)
                     }
                 },
@@ -117,6 +137,21 @@ fun RecipesScreen(
                 onFavoriteClick = { recipe ->
                     viewModel.onFavoriteInsertRecipe(recipe)
                 }
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            PullRefreshIndicator(
+                refreshing = isRefresh,
+                state = pullRefresh,
+                backgroundColor = Color.Black,
+                contentColor = FloralWhite,
+                scale = true
             )
         }
     }

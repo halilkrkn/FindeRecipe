@@ -30,8 +30,11 @@ class NotificationViewModel @Inject constructor(
 
     val notificationCount: Int = _state.value.recipeList.size
 
-        private val _isLoading = MutableStateFlow(false)
+    private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+
+    private val _isRefreshing = mutableStateOf(false)
+    val isRefreshing: State<Boolean> = _isRefreshing
 
     private var job: Job? = null
 
@@ -42,8 +45,11 @@ class NotificationViewModel @Inject constructor(
     }
 
     fun onRefresh() {
+        _isRefreshing.value = true
         getAllNotificationRecipes(userId = userId)
+        _isRefreshing.value = false
     }
+
     private fun getAllNotificationRecipes(userId: String) {
         _isLoading.value = true
         job?.cancel()

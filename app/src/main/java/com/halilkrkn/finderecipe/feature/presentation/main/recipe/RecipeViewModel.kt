@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,11 +33,24 @@ class RecipeViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
+    private val _isRefreshing = mutableStateOf(false)
+    val isRefreshing: State<Boolean> = _isRefreshing
+
+
     private var job: Job? = null
 
     init {
         getAllRecipes()
         getMealTypeRecipe("breakfast")
+    }
+
+    fun onRefresh() {
+        _isRefreshing.value = true
+        _isLoading.value = true
+        getAllRecipes()
+        getMealTypeRecipe("breakfast")
+        _isRefreshing.value = false
+        _isLoading.value = false
     }
 
     fun getAllRecentRecipes() {

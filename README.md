@@ -1,69 +1,77 @@
-## 🍲 FindeRecipe: Yemek Tarifi Bulma Uygulaması
+# 🍲 FindeRecipe: Recipe Discovery Application
 
-**FindeRecipe**, kullanıcının girdiği malzemelere göre yemek tarifleri bulmasını sağlayan bir Android uygulamasıdır. Bu uygulama ile elinizdeki malzemeleri değerlendirebilir, yeni tarifler keşfedebilir ve yemek yapmayı daha pratik hale getirebilirsiniz.
+FindeRecipe is an Android application that helps users find recipes based on the ingredients they have. With this app, you can make the most of your available ingredients, discover new recipes, and make cooking more practical.
 
-### ✨ Uygulamanın Özellikleri
+## ✨ Features
 
-* **Malzeme Bazlı Arama:** Elinizdeki malzemeleri girerek bunlarla yapabileceğiniz yemek tariflerini arayabilirsiniz.
-* **Zengin Veritabanı:** Uygulama, geniş bir yemek tarifi veritabanına sahiptir ve sürekli olarak yeni tariflerle güncellenmektedir.
-* **Detaylı Tarifler:** Her tarif, gerekli malzemelerin listesini, adım adım talimatları ve genellikle fotoğraflar veya videolar gibi görselleri içerir.
-* **Kullanıcı Dostu Arayüz:** Uygulama, kullanımı kolay ve anlaşılır bir arayüze sahiptir.
+- **Ingredient-Based Search:** Enter the ingredients you have and search for recipes you can make with them.
+- **Rich Database:** Continuously updated with new recipes.
+- **Detailed Recipes:** Includes a list of required ingredients, step-by-step instructions, and visuals such as photos or videos.
+- **User-Friendly Interface:** Easy-to-use and intuitive design.
 
-### 🛠️ Kullanılan Teknolojiler ve Kütüphaneler
+## 🛠️ Technologies and Libraries Used
 
-**Temel Teknolojiler:**
+### **Core Technologies:**
+- **Programming Language:** Kotlin
+- **Development Environment:** Android Studio
+- **Architecture:** MVVM (Model-View-ViewModel)
 
-* **Programlama Dili:** Kotlin - Modern, güvenli ve özlü bir programlama deneyimi için.
-* **Geliştirme Ortamı:** Android Studio - Android uygulama geliştirme için resmi IDE.
-* **Mimari:** MVVM (Model-View-ViewModel) - Uygulamanın mantığını arayüzünden ayırarak daha düzenli ve test edilebilir bir yapı sağlar.
+### **Key Libraries:**
+- **Jetpack Compose:** Modern declarative UI toolkit for Android.
+- **Retrofit:** Type-safe HTTP client for API communication.
+- **Gson:** JSON parser for converting API responses into Kotlin objects.
+- **Coil:** Image loading and caching library.
+- **Room Persistence Library:** Simplifies local database management.
+- **Coroutines:** Helps manage asynchronous tasks efficiently.
+- **Dagger-Hilt:** Dependency injection framework for better scalability.
+- **Lottie:** Enables lightweight and high-performance animations.
+- **Firebase:** Provides backend services (database, authentication, storage, etc.).
+- **Push Notification:** Sends real-time notifications to users.
+- **Mock & MockServer:** Used for creating mock API responses for testing.
+- **Truth:** A testing library for readable assertions.
+- **Swipe Refresh:** UI pattern for refreshing content with a swipe.
+- **Splash API:** Ensures a consistent splash screen experience in Android 12+.
 
-**Önemli Kütüphaneler:**
+### **Database:**
+- **Room Database:** Used for locally storing application data (e.g., favorite recipes, shopping lists).
 
-* **Jetpack Compose:** Modern ve bildirimsel bir Android UI toolkit'i - daha hızlı ve kolay UI geliştirme.
-* **Retrofit:** Tip güvenli bir HTTP istemcisi - API ile kolay ve verimli iletişim.
-* **Gson:** JSON ayrıştırıcı - API'den gelen verileri Kotlin nesnelerine dönüştürür.
-* **Coil:** Görüntü yükleme ve önbelleğe alma kütüphanesi - performanslı ve akıcı bir kullanıcı deneyimi.
-* **Room Persistence Library:** SQLite veritabanıyla çalışmayı kolaylaştıran bir abstraction layer - verileri yerel olarak depolamak ve yönetmek için.
-* **Coroutines:** Asenkron işlemleri daha basit ve okunabilir bir şekilde yönetmek için.
-* **Dagger-Hilt:** Android için bağımlılık enjeksiyonu kütüphanesi - kodun daha düzenli, test edilebilir ve ölçeklenebilir olmasını sağlar.
-* **Lottie:** Adobe After Effects animasyonlarını Android, iOS ve web'de gerçek zamanlı olarak oluşturmak ve yayınlamak için kullanılan bir kütüphane. Küçük boyutlu ve performanslı animasyonlar oluşturmayı sağlar.
-* **Firebase:** Google tarafından geliştirilen, backend hizmetleri (veritabanı, kimlik doğrulama, depolama, vb.) sağlayan bir platform. Uygulamaların hızlı bir şekilde geliştirilmesini ve ölçeklendirilmesini kolaylaştırır.
-* **Coroutines:** Kotlin'de eş zamanlı programlamayı basitleştiren bir özellik. Asenkron işlemleri (ağ istekleri, veritabanı işlemleri) daha okunabilir ve yönetilebilir hale getirir.
-* **Push Notification:** Uygulamaların kullanıcılara anlık bildirimler göndermesini sağlayan bir mekanizma. Önemli güncellemeleri, mesajları veya etkinlikleri bildirmek için kullanılır.
-* **Mock:** Test sırasında gerçek bağımlılıkların (API, veritabanı) yerine geçen sahte nesneler oluşturmayı sağlar. Bu, testlerin daha hızlı ve öngörülebilir olmasını sağlar.
-* **MockServer:** Test amacıyla sahte API uç noktaları oluşturmak için kullanılan bir kütüphane. API'lerin davranışını simüle etmek ve farklı senaryoları test etmek için kullanılır.
-* **Truth:** Google tarafından geliştirilen, daha okunabilir ve akıcı iddialarda bulunmayı sağlayan bir test kütüphanesi. Testlerin daha anlaşılır ve bakımı kolay olmasını sağlar.
-* **Swipe Refresh:** Kullanıcıların listeleri veya içerikleri aşağı kaydırarak yenilemesini sağlayan bir UI deseni.
-* **Splash API:** Android 12 ve üzeri sürümlerde daha tutarlı ve kullanıcı dostu bir açılış ekranı deneyimi oluşturmak için kullanılan bir API.
+### **API:**
+- [Spoonacular API](https://spoonacular.com/food-api): Used for fetching recipe data.
 
-**Veritabanı:**
+## 🚀 Running the Application
 
-* **Room Veritabanı:** Uygulama verilerini yerel olarak depolamak için (örneğin, favori tarifler, alışveriş listesi).
+1. **Clone the Project:**
+   ```bash
+   git clone https://github.com/halilkrkn/FindeRecipe.git
+   ```
+2. **Open in Android Studio:** Open the cloned project in Android Studio.
+3. **Sync Dependencies:** Wait for Android Studio to sync the project and download all dependencies.
+4. **Add API Key:** (If required) Add your API key to the `local.properties` file:
+   ```properties
+   API_KEY=your_api_key_here
+   ```
+5. **Run the Application:** Click the green play button to launch the project.
 
-**API:**
+## 🤝 Contributing
 
-* [Spooncular API](https://spoonacular.com/food-api): Tarif verileri sağlamak için.
-### 🚀 Uygulamayı Çalıştırma
+We welcome contributions to improve FindeRecipe! If you want to contribute, please follow these steps:
 
-1. **Projeyi Klonlayın:** `git clone https://github.com/halilkrkn/FindeRecipe.git`
-2. **Android Studio'da Açın:** Klonlanan projeyi Android Studio'da açın.
-3. **Bağımlılıkları Senkronize Edin:** Android Studio'nun projeyi senkronize etmesini ve tüm bağımlılıkları indirmesini bekleyin.
-4. **[API Anahtarını Ekleyin]:** (Gerekirse) API anahtarınızı ilgili dosya olan `local.properties` dosyasına `API_KEY` adında ekleyin.
-5. **Uygulamayı Çalıştırın:** Projeyi çalıştırmak için yeşil oynatma düğmesine tıklayın.
+1. Fork the project.
+2. Create a local branch:
+   ```bash
+   git checkout -b feature/feature-name
+   ```
+3. Make changes and commit them:
+   ```bash
+   git commit -m "Feature added"
+   ```
+4. Push your branch:
+   ```bash
+   git push origin feature/feature-name
+   ```
+5. Create a pull request.
 
-### 🤝 Katkıda Bulunma
-
-FindeRecipe'i geliştirmek için herkesin katkısına açığız! Katkıda bulunmak istiyorsanız lütfen şu adımları izleyin:
-
-1. Projeyi fork edin.
-2. Yerel olarak bir branch oluşturun: `git checkout -b feature/feature-name`
-3. Değişikliklerinizi yapın ve commit edin: `git commit -m "Özellik eklendi"`
-4. Branch'inizi push edin: ` git push origin feature/feature-name`
-5. Bir pull request oluşturun.
-
-
-
-## Uygulamada Kullanılan Ekranlar
+## 📱 Screens Used in the Application
 
 ### Splash Screen
 <p align="center">
